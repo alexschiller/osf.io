@@ -110,7 +110,7 @@
             <div class="col-md-12">
                 <h4> 2. Select a project</h4>
                 <osf-project-search
-                params="data: data,
+                params="data: "${dashboard_id}",
                         onSubmit: startUpload,
                         onClear: clearMessages,
                         onSelected: clearMessages,
@@ -170,7 +170,7 @@
         <br />
         <div class="row">
             <div class="col-md-6 ">
-                <button class="btn btn-primary" type="submit">Create New Folder</button>
+                <button class="btn btn-primary" did="${dashboard_id}" type="submit">Create New Folder</button>
             </div>
         </div>
     </form>

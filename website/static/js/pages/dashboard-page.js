@@ -51,7 +51,7 @@ var request = $.getJSON(url, function(response) {
         };
         self.nodes = response.nodes;
     }
-    $osf.applyBindings(ProjectCreateViewModel, '#folderCreate');
+    $osf.applyBindings(FolderCreateViewModel, '#folderCreate');
 });
 request.fail(function(xhr, textStatus, error) {
     Raven.captureMessage('Could not fetch dashboard nodes.', {

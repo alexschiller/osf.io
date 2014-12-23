@@ -5,10 +5,13 @@ var bootbox = require('bootbox');
 
 var $osf = require('osfHelpers');
 
-function FolderCreatorViewModel(url) {
+function FolderCreatorViewModel(params) {
     var self = this;
-    self.url = url;
+    self.params = params || {};
 
+    self.url = '/api/v1/folder/' + self.params.data;
+    // self.url = '/api/v1/folder/' + nodeID;
+    self.hasFocus = params.hasFocus;
     self.title = ko.observable('').extend({
         maxLength: 200
     });
@@ -16,7 +19,6 @@ function FolderCreatorViewModel(url) {
     self.formErrorText = ko.observable('');
     
     self.createFolder = function () {
-        console.log(self.url);
         $osf.postJSON(
             self.url,
             self.serialize()
@@ -46,6 +48,8 @@ function FolderCreatorViewModel(url) {
             self.formErrorText('We need a title for your folder.');
         } else {
             self.createFolder();
+            window.location = "/dashboard/";
+
         }
     };
  

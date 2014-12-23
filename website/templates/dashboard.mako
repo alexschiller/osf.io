@@ -86,7 +86,7 @@
                             </div><!-- end ob-header -->
                             <div data-bind="visible: isOpen()" id="obRevealNewFolder">
                                 <osf-folder-create-form
-                                    params="data: nodes, hasFocus: focus">
+                                    params="data: '${dashboard_id}', hasFocus: focus">
                                 </osf-folder-create-form>
                             </div>
                         </li> <!-- end ob-list-item -->
