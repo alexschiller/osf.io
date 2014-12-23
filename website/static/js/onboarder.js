@@ -14,6 +14,8 @@ require('typeahead.js');
 
 require('./projectCreator.js');
 var $osf = require('osfHelpers');
+require('./folderCreator.js');
+
 
 function noop() {}
 var MAX_RESULTS = 14;

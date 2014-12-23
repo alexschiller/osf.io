@@ -170,3 +170,4 @@ ko.components.register('osf-project-create-form', {
     viewModel: ProjectCreatorViewModel,
     template: {element: 'osf-project-create-form'}
 });
+

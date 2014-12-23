@@ -71,6 +71,28 @@
                             </div>
                         </li> <!-- end ob-list-item -->
                     </div>
+####################################
+                    <div id="folderCreate">
+                        <li id="obNewFolder" class="ob-list-item list-group-item">
+
+                            <div data-bind="click: toggle" class="ob-header pointer">
+                                <h3
+                                    class="ob-heading list-group-item-heading">
+                                    Create a folder
+                                </h3>
+                                <i data-bind="css: {'icon-plus': !isOpen(), 'icon-minus': isOpen()}"
+                                    class="pointer ob-expand-icon icon-large pull-right">
+                                </i>
+                            </div><!-- end ob-header -->
+                            <div data-bind="visible: isOpen()" id="obRevealNewFolder">
+                                <osf-folder-create-form
+                                    params="data: nodes, hasFocus: focus">
+                                </osf-folder-create-form>
+                            </div>
+                        </li> <!-- end ob-list-item -->
+                    </div>
+####################################
+
                     % if not disk_saving_mode:
                     <div id="obRegisterProject">
                         <osf-ob-register params="data: nodes"></osf-ob-register>

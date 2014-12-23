@@ -16,6 +16,7 @@ function FolderCreatorViewModel(url) {
     self.formErrorText = ko.observable('');
     
     self.createFolder = function () {
+        console.log(self.url);
         $osf.postJSON(
             self.url,
             self.serialize()
@@ -27,7 +28,7 @@ function FolderCreatorViewModel(url) {
     };
 
     self.createSuccess = function (data) {
-        window.location = data.projectUrl;
+        // window.location = data.projectUrl;
     };
 
     self.createFailure = function () {
@@ -50,11 +51,18 @@ function FolderCreatorViewModel(url) {
  
 }
 
-function FolderCreator(selector, url) {
-    var viewModel = new FolderCreatorViewModel(url);
-    // Uncomment for debugging
-    // window.viewModel = viewModel;
-    $osf.applyBindings(viewModel, selector);
-}
+// function FolderCreator(selector, url) {
+//     var viewModel = new FolderCreatorViewModel(url);
+//     // Uncomment for debugging
+//     window.viewModel = viewModel;
+//     $osf.applyBindings(viewModel, selector);
+// }
 
-module.exports = FolderCreator;
+
+ko.components.register('osf-folder-create-form', {
+    viewModel: FolderCreatorViewModel,
+    template: {element: 'osf-folder-create-form'}
+});
+
+
+// module.exports = FolderCreator;

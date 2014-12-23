@@ -157,6 +157,26 @@
 </form>
 </template>
 
+###########################################
+<template id="osf-folder-create-form">
+    <form id="creationForm" data-bind="submit: verifyTitle">
+        <div class="row">
+            <div class="col-md-6 ">
+                <label for="title">Title</label>
+                <input class="form-control" type="text" name="title" data-bind="value: title">
+                <span class="validationMessage" data-bind="text: formErrorText"></span>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6 ">
+                <button class="btn btn-primary" type="submit">Create New Folder</button>
+            </div>
+        </div>
+    </form>
+
+</template>
+###################
 <template id="osf-ob-goto">
 <li class="ob-list-item list-group-item">
     <div data-bind="click: toggle" class="ob-header pointer">
