@@ -10,7 +10,6 @@ function FolderCreatorViewModel(params) {
     self.params = params || {};
 
     self.url = '/api/v1/folder/' + self.params.data;
-    // self.url = '/api/v1/folder/' + nodeID;
     self.hasFocus = params.hasFocus;
     self.title = ko.observable('').extend({
         maxLength: 200
@@ -48,6 +47,8 @@ function FolderCreatorViewModel(params) {
             self.formErrorText('We need a title for your folder.');
         } else {
             self.createFolder();
+
+            // -stupid reload function, better way?
             window.location = "/dashboard/";
 
         }
@@ -55,18 +56,7 @@ function FolderCreatorViewModel(params) {
  
 }
 
-// function FolderCreator(selector, url) {
-//     var viewModel = new FolderCreatorViewModel(url);
-//     // Uncomment for debugging
-//     window.viewModel = viewModel;
-//     $osf.applyBindings(viewModel, selector);
-// }
-
-
 ko.components.register('osf-folder-create-form', {
     viewModel: FolderCreatorViewModel,
     template: {element: 'osf-folder-create-form'}
 });
-
-
-// module.exports = FolderCreator;

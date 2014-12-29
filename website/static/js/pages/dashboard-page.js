@@ -43,11 +43,11 @@ var request = $.getJSON(url, function(response) {
 
     function FolderCreateViewModel() {
         var self = this;
-        self.isOpen = ko.observable(false),
-        self.focus = ko.observable(false);
-        self.toggle = function() {
-            self.isOpen(!self.isOpen());
-            self.focus(self.isOpen());
+        self.isOpen2 = ko.observable(false),
+        self.focus2 = ko.observable(false);
+        self.toggle2 = function() {
+            self.isOpen2(!self.isOpen2());
+            self.focus2(self.isOpen2());
         };
         self.nodes = response.nodes;
     }

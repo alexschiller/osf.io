@@ -13,8 +13,8 @@ require('typeahead.js');
 
 
 require('./projectCreator.js');
-var $osf = require('osfHelpers');
 require('./folderCreator.js');
+var $osf = require('osfHelpers');
 
 
 function noop() {}

@@ -110,7 +110,7 @@
             <div class="col-md-12">
                 <h4> 2. Select a project</h4>
                 <osf-project-search
-                params="data: "${dashboard_id}",
+                params="data: data,
                         onSubmit: startUpload,
                         onClear: clearMessages,
                         onSelected: clearMessages,
@@ -157,11 +157,12 @@
 </form>
 </template>
 
-###########################################
+
 <template id="osf-folder-create-form">
     <form id="creationForm" data-bind="submit: verifyTitle">
         <div class="row">
-            <div class="col-md-6 ">
+            <div class="col-md-12">
+            <span class="help-block">This creates a new folder in the project organizer on the dashboard</span>
                 <label for="title">Title</label>
                 <input class="form-control" type="text" name="title" data-bind="value: title">
                 <span class="validationMessage" data-bind="text: formErrorText"></span>
@@ -169,14 +170,14 @@
         </div>
         <br />
         <div class="row">
-            <div class="col-md-6 ">
-                <button class="btn btn-primary" did="${dashboard_id}" type="submit">Create New Folder</button>
+            <div class="col-md-12">
+                <button class="btn btn-primary pull-right" type="submit">Create</button>
             </div>
         </div>
     </form>
 
 </template>
-###################
+
 <template id="osf-ob-goto">
 <li class="ob-list-item list-group-item">
     <div data-bind="click: toggle" class="ob-header pointer">
