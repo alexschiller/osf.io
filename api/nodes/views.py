@@ -1,5 +1,5 @@
 import requests
-
+import logging
 from modularodm import Q
 from rest_framework import generics, permissions as drf_permissions
 from rest_framework.exceptions import PermissionDenied, ValidationError
@@ -18,12 +18,39 @@ class NodeMixin(object):
     current URL. By default, fetches the current node based on the node_id kwarg.
     """
 
+###############################
+### Every node uses this, permissions go here
+### Check token for that node, not all nodes, this is the part that could be elsewhere
+### Get node here, then replace out contribs with fakeness here or something.
+### No user information and don't let people accidentally work around it.
+###############################
+### right now we don't have node logs, but they have their own link to users, node logs don't use contrib list, but have own user links
+### it may be that instead of doing that, node logs moved contrib away from users to nodes, may be that just changing contrib is enough
+### Anything using that serializer won't
+###############################
+### Over engineered would be all three
+### 1. node get objects
+### 2. Permissions
+### 3. Contributors serializer
+
     serializer_class = NodeSerializer
     node_lookup_url_kwarg = 'node_id'
 
     def get_node(self):
         obj = get_object_or_404(Node, self.kwargs[self.node_lookup_url_kwarg])
         # May raise a permission denied
+        ## subclass the get_object or 404, then does the additional checking
+
+        if getattr(self.request.user, "_id", None) is None:
+            self.request.user._id = "Fakie"
+            self.request.user.is_anonymous = lambda: False
+        if 'view_only' in self.request.query_params.keys():
+            user_token = self.request.query_params['view_only']
+            for pl in obj.private_links_active:
+                if not pl.is_deleted:
+                    if user_token == pl.key:
+                        obj.permissions[self.request.user._id] = ["read"]
+
         self.check_object_permissions(self.request, obj)
         return obj
 
@@ -128,7 +155,16 @@ class NodeContributorsList(generics.ListAPIView, ListFilterMixin, NodeMixin):
     )
 
     serializer_class = ContributorSerializer
-
+########################################################
+### Filters is where the query params might be from there, may need to make a class to play with , but might not be necessary.
+### probably all within nodes, but if going between nodes and users then consider it
+#########################
+### Node logs will have their own user thing, so it may be necessary
+### anything in the nodes hiearchy will not have a real user object but can use the
+### Not a choice of the serializer but some sort of enforced earlier on in the processs (before it hits serializer???)
+#########################
+###
+########################################################
     def get_default_queryset(self):
         node = self.get_node()
         visible_contributors = node.visible_contributor_ids
