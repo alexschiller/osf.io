@@ -11,10 +11,12 @@ from website.settings import API_DOMAIN
 
 from tests.base import ApiTestCase, fake
 from tests.factories import (
+    AuthUserFactory,
     DashboardFactory,
     FolderFactory,
     NodeFactory,
     ProjectFactory,
+    PrivateLinkFactory,
     RegistrationFactory,
     UserFactory
 )
@@ -1349,3 +1351,51 @@ class TestDeleteNodePointer(ApiTestCase):
         #check that deleted pointer can not be returned
         res = self.app.get(self.private_url, auth=self.basic_auth, expect_errors=True)
         assert_equal(res.status_code, 404)
+
+#############################################################
+
+
+class TestNodePrivateLink(ApiTestCase):
+
+    def setUp(self):
+        super(TestNodePrivateLink, self).setUp()
+        self.user = AuthUserFactory()  # Is NOT a contributor
+        self.project = ProjectFactory(is_public=False)
+        self.link = PrivateLinkFactory()
+        self.link.nodes.append(self.project)
+        self.link.save()
+        self.project_url = '/{}nodes/{}/'.format(API_BASE, self.project._id)
+
+    # def test_not_anonymous_for_public_project(self):
+    #     anonymous_link = PrivateLinkFactory(anonymous=True)
+    #     anonymous_link.nodes.append(self.project)
+    #     anonymous_link.save()
+    #     self.project.set_privacy('public')
+    #     self.project.save()
+    #     self.project.reload()
+    #     auth = Auth(user=self.user, private_key=anonymous_link.key)
+    #     assert_false(has_anonymous_link(self.project, auth))
+
+    def test_has_private_link_key(self):
+        res = self.app.get(self.project_url, {'view_only': self.link.key})
+        assert_equal(res.status_code, 200)
+
+    def test_logged_in_no_private_key(self):
+        res = self.app.get(self.project_url, {'view_only': None}, auth=self.user.auth,
+                           expect_errors=True)
+        assert_equal(res.status_code, 403)
+
+    def test_logged_in_has_key(self):
+        res = self.app.get(
+            self.project_url, {'view_only': self.link.key}, auth=self.user.auth)
+        assert_equal(res.status_code, 200)
+
+    def test_has_wrong_private_link_key(self):
+        res = self.app.get(self.project_url, {'view_only': "Not a valid link"},expect_errors=True)
+        assert_equal(res.status_code, 403)
+
+
+        ########################## New class of tests here 
+        ### make sure I read permissions and nto write, can only see it with a few only link and such 
+        ##### run all the base tests with the view only link attached to make sure it doesn't do  weird things
+        #######

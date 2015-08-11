@@ -1,5 +1,4 @@
 import requests
-import logging
 from modularodm import Q
 from rest_framework import generics, permissions as drf_permissions
 from rest_framework.exceptions import PermissionDenied, ValidationError
@@ -40,16 +39,16 @@ class NodeMixin(object):
         obj = get_object_or_404(Node, self.kwargs[self.node_lookup_url_kwarg])
         # May raise a permission denied
         ## subclass the get_object or 404, then does the additional checking
-
-        if getattr(self.request.user, "_id", None) is None:
-            self.request.user._id = "Fakie"
-            self.request.user.is_anonymous = lambda: False
         if 'view_only' in self.request.query_params.keys():
             user_token = self.request.query_params['view_only']
             for pl in obj.private_links_active:
                 if not pl.is_deleted:
                     if user_token == pl.key:
+                        if getattr(self.request.user, "_id", None) is None:
+                            self.request.user._id = "Fakie"
+                            self.request.user.is_anonymous = lambda: False
                         obj.permissions[self.request.user._id] = ["read"]
+                        break
 
         self.check_object_permissions(self.request, obj)
         return obj
