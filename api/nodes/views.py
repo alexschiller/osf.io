@@ -39,14 +39,17 @@ class NodeMixin(object):
         obj = get_object_or_404(Node, self.kwargs[self.node_lookup_url_kwarg])
         # May raise a permission denied
         ## subclass the get_object or 404, then does the additional checking
+        obj.view_only = False
         if 'view_only' in self.request.query_params.keys():
             user_token = self.request.query_params['view_only']
             for pl in obj.private_links_active:
                 if not pl.is_deleted:
                     if user_token == pl.key:
                         if getattr(self.request.user, "_id", None) is None:
-                            self.request.user._id = "Fakie"
+                            self.request.user._id = "ViewOnlyLinkAnonymous"
                             self.request.user.is_anonymous = lambda: False
+                        obj.view_only = True
+                        obj.view_only_url_token = "?view_only=" + user_token
                         obj.permissions[self.request.user._id] = ["read"]
                         break
 
@@ -354,7 +357,7 @@ class NodeFilesList(generics.ListAPIView, NodeMixin):
 
         addons = self.get_node().get_addons()
         user = self.request.user
-        cookie = None if self.request.user.is_anonymous() else user.get_or_create_cookie()
+        cookie = None if self.request.user.is_anonymous() or self.request.user._id == "ViewOnlyLinkAnonymous" else user.get_or_create_cookie()
         node_id = self.get_node()._id
         obj_args = self.request.parser_context['args']
 

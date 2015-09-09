@@ -14,7 +14,6 @@ from website import settings as website_settings
 def absolute_reverse(view_name, query_kwargs=None, args=None, kwargs=None):
     """Like django's `reverse`, except returns an absolute URL. Also add query parameters."""
     relative_url = reverse(view_name, kwargs=kwargs)
-
     url = website_util.api_v2_url(relative_url, params=query_kwargs)
     return url
 

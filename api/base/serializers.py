@@ -1,10 +1,12 @@
 import collections
 import re
-
+import logging
 from rest_framework import serializers as ser
 from website.util.sanitize import strip_html
 from api.base.utils import absolute_reverse, waterbutler_url_for
 
+console = lambda: None
+console.log = lambda x: logging.warning(x)
 
 def _rapply(d, func, *args, **kwargs):
     """Apply a function to all values in a dictionary, recursively."""
@@ -118,13 +120,16 @@ class Link(object):
         for item in kwarg_values:
             if kwarg_values[item] is None:
                 return None
-        return absolute_reverse(
+        url = absolute_reverse(
             self.endpoint,
             args=arg_values,
             kwargs=kwarg_values,
             query_kwargs=query_kwarg_values,
             **self.reverse_kwargs
         )
+        if getattr(obj, "view_only", False):
+            url += obj.view_only_url_token
+        return url
 
 
 class WaterbutlerLink(Link):

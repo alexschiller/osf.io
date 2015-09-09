@@ -1360,11 +1360,107 @@ class TestNodePrivateLink(ApiTestCase):
     def setUp(self):
         super(TestNodePrivateLink, self).setUp()
         self.user = AuthUserFactory()  # Is NOT a contributor
-        self.project = ProjectFactory(is_public=False)
-        self.link = PrivateLinkFactory()
-        self.link.nodes.append(self.project)
-        self.link.save()
-        self.project_url = '/{}nodes/{}/'.format(API_BASE, self.project._id)
+        
+        # public project with private link
+        self.public_project = ProjectFactory(is_public=True)
+        self.public_link = PrivateLinkFactory()
+        self.public_link.nodes.append(self.public_project)
+        self.public_link.save()
+        self.public_project_url = '/{}nodes/{}/'.format(API_BASE, self.public_project._id)
+
+        # private project with private link
+        self.private_project = ProjectFactory(is_public=False)
+        self.private_link = PrivateLinkFactory()
+        self.private_link.nodes.append(self.private_project)
+        self.private_link.save()
+        self.private_project_url = '/{}nodes/{}/'.format(API_BASE, self.private_project._id)
+
+    # Anonymous user - Public project
+    def test_anon_user_public_project_with_plk(self):
+        res = self.app.get(self.public_project_url, {'view_only': self.public_link.key})
+        assert_equal(res.status_code, 200)
+
+    def test_anon_user_public_project_with_no_plk(self):
+        res = self.app.get(self.public_project_url)
+        assert_equal(res.status_code, 200)    
+
+    def test_anon_user_public_project_with_wrong_plk(self):
+        res = self.app.get(self.public_project_url, {'view_only': "Fakie"})
+        assert_equal(res.status_code, 200)
+
+    # Anonymouse user - Private Project
+    def test_anon_user_private_project_with_plk(self):
+        res = self.app.get(self.private_project_url, {'view_only': self.private_link.key})
+        assert_equal(res.status_code, 200)
+
+    def test_anon_user_private_project_with_no_plk(self):
+        res = self.app.get(self.private_project_url, expect_errors=True)
+        assert_equal(res.status_code, 403)    
+
+    def test_anon_user_private_project_with_wrong_plk(self):
+        res = self.app.get(self.private_project_url, {'view_only': "Fakie"},expect_errors=True)
+        assert_equal(res.status_code, 403)
+
+    # Logged in user (No permissions) - Public project
+    def test_logged_in_user_no_perm_public_project_with_plk(self):
+        res = self.app.get(self.public_project_url, {'view_only': self.public_link.key}, auth=self.user.auth)
+        assert_equal(res.status_code, 200)
+
+    def test_logged_in_user_no_perm_public_project_with_no_plk(self):
+        res = self.app.get(self.public_project_url, auth=self.user.auth)
+        assert_equal(res.status_code, 200)    
+
+    def test_logged_in_user_no_perm_public_project_with_wrong_plk(self):
+        res = self.app.get(self.public_project_url, {'view_only': "Fakie"}, auth=self.user.auth)
+        assert_equal(res.status_code, 200)
+
+    # Logged in user (No permissions) - Private Project
+    def test_logged_in_user_no_perm_private_project_with_plk(self):
+        res = self.app.get(self.private_project_url, {'view_only': self.private_link.key}, auth=self.user.auth)
+        assert_equal(res.status_code, 200)
+
+    def test_logged_in_user_no_perm_private_project_with_no_plk(self):
+        res = self.app.get(self.private_project_url, expect_errors=True, auth=self.user.auth)
+        assert_equal(res.status_code, 403)    
+
+    def test_logged_in_user_no_perm_private_project_with_wrong_plk(self):
+        res = self.app.get(self.private_project_url, {'view_only': "Fakie"},expect_errors=True, auth=self.user.auth)
+        assert_equal(res.status_code, 403)
+
+
+
+    # def test_has_private_link_key(self):
+    #     res = self.app.get(self.project_url, {'view_only': self.link.key})
+    #     assert_equal(res.status_code, 200)    
+
+    # def test_logged_in_no_private_key(self):
+    #     res = self.app.get(self.project_url, {'view_only': None}, auth=self.user.auth,
+    #                        expect_errors=True)
+    #     assert_equal(res.status_code, 403)
+
+    # def test_logged_in_has_private_key(self):
+    #     res = self.app.get(
+    #         self.project_url, {'view_only': self.link.key}, auth=self.user.auth)
+    #     assert_equal(res.status_code, 200)
+
+    # def test_has_wrong_private_link_key(self):
+    #     res = self.app.get(self.project_url, {'view_only': "Not a valid link"},expect_errors=True)
+    #     assert_equal(res.status_code, 403)
+
+
+
+
+
+
+
+
+
+
+
+    # def test_logged_in_has_wrong_private_link_key(self):
+    #     res = self.app.get(
+    #         self.project_url, {'view_only': "Not a valid link"}, auth=self.user.auth)
+    #     assert_equal(res.status_code, 200)
 
     # def test_not_anonymous_for_public_project(self):
     #     anonymous_link = PrivateLinkFactory(anonymous=True)
@@ -1375,25 +1471,6 @@ class TestNodePrivateLink(ApiTestCase):
     #     self.project.reload()
     #     auth = Auth(user=self.user, private_key=anonymous_link.key)
     #     assert_false(has_anonymous_link(self.project, auth))
-
-    def test_has_private_link_key(self):
-        res = self.app.get(self.project_url, {'view_only': self.link.key})
-        assert_equal(res.status_code, 200)
-
-    def test_logged_in_no_private_key(self):
-        res = self.app.get(self.project_url, {'view_only': None}, auth=self.user.auth,
-                           expect_errors=True)
-        assert_equal(res.status_code, 403)
-
-    def test_logged_in_has_key(self):
-        res = self.app.get(
-            self.project_url, {'view_only': self.link.key}, auth=self.user.auth)
-        assert_equal(res.status_code, 200)
-
-    def test_has_wrong_private_link_key(self):
-        res = self.app.get(self.project_url, {'view_only': "Not a valid link"},expect_errors=True)
-        assert_equal(res.status_code, 403)
-
 
         ########################## New class of tests here 
         ### make sure I read permissions and nto write, can only see it with a few only link and such 
