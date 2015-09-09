@@ -11,6 +11,9 @@ from api.base.utils import get_object_or_404, waterbutler_url_for
 from .serializers import NodeSerializer, NodePointersSerializer, NodeFilesSerializer
 from .permissions import ContributorOrPublic, ReadOnlyIfRegistration, ContributorOrPublicForPointers
 
+import logging
+console = lambda: None
+console.log = lambda x: logging.warning(x)
 
 class NodeMixin(object):
     """Mixin with convenience methods for retrieving the current node based on the
@@ -38,8 +41,10 @@ class NodeMixin(object):
     def get_node(self):
         obj = get_object_or_404(Node, self.kwargs[self.node_lookup_url_kwarg])
         # May raise a permission denied
-        ## subclass the get_object or 404, then does the additional checking
+
+        ######### subclass the get_object or 404, then does the additional checking
         obj.view_only = False
+        obj.view_only_anonymous_link = False
         if 'view_only' in self.request.query_params.keys():
             user_token = self.request.query_params['view_only']
             for pl in obj.private_links_active:
@@ -48,11 +53,12 @@ class NodeMixin(object):
                         if getattr(self.request.user, "_id", None) is None:
                             self.request.user._id = "ViewOnlyLinkAnonymous"
                             self.request.user.is_anonymous = lambda: False
+                        obj.view_only_anonymous_link = pl.anonymous
                         obj.view_only = True
                         obj.view_only_url_token = "?view_only=" + user_token
                         obj.permissions[self.request.user._id] = ["read"]
                         break
-
+        #########
         self.check_object_permissions(self.request, obj)
         return obj
 
@@ -171,6 +177,9 @@ class NodeContributorsList(generics.ListAPIView, ListFilterMixin, NodeMixin):
         node = self.get_node()
         visible_contributors = node.visible_contributor_ids
         contributors = []
+        ## unless public, do not add contribs to view_only anonymized project
+        if node.view_only_anonymous_link and not node.is_public:
+            return contributors
         for contributor in node.contributors:
             contributor.bibliographic = contributor._id in visible_contributors
             contributors.append(contributor)

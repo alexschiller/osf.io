@@ -8,6 +8,9 @@ from api.base.filters import ODMFilterMixin
 from api.nodes.serializers import NodeSerializer
 from .serializers import UserSerializer
 
+import logging
+console = lambda: None
+console.log = lambda x: logging.warning(x)
 class UserMixin(object):
     """Mixin with convenience methods for retrieving the current node based on the
     current URL. By default, fetches the user based on the user_id kwarg.

@@ -1,9 +1,11 @@
 from rest_framework import serializers as ser
-import logging
 from website.models import Node
 from framework.auth.core import Auth
 from rest_framework import exceptions
 from api.base.serializers import JSONAPISerializer, LinksField, Link, WaterbutlerLink
+import logging
+console = lambda: None
+console.log = lambda x: logging.warning(x)
 
 
 class NodeSerializer(JSONAPISerializer):
@@ -23,7 +25,6 @@ class NodeSerializer(JSONAPISerializer):
     tags = ser.SerializerMethodField(help_text='A dictionary that contains two lists of tags: '
                                                'user and system. Any tag that a user will define in the UI will be '
                                                'a user tag')
-    logging.warning("nargs")
     links = LinksField({
         'html': 'get_absolute_url',
         'children': {
@@ -87,7 +88,11 @@ class NodeSerializer(JSONAPISerializer):
         return len(nodes)
 
     def get_contrib_count(self, obj):
-        return len(obj.contributors)
+        ## don't show contrib for view only anon, but do if proj is pub
+        if obj.view_only_anonymous_link and not obj.is_public:
+            return "Anonymous Contributors"
+        else:
+            return len(obj.contributors)
 
     def get_registration_count(self, obj):
         auth = self.get_user_auth(self.context['request'])
