@@ -47,6 +47,9 @@ class RegistrationListFilteringMixin(object):
         assert_equal(len(actual), 1)
         assert_equal(expected, actual)
 
+    def test_assert_true(self):
+        assert True
+
     def test_parent_filter_equals_returns_multiple(self):
         expected = [n._id for n in self.node_A.get_nodes()]
         res = self.app.get('{}{}'.format(self.parent_url, self.node_A._id), auth=self.user.auth)
