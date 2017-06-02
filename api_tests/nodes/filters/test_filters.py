@@ -19,16 +19,19 @@ class NodesListFilteringMixin(object):
         assert self.url, 'Subclasses of NodesListFilteringMixin must define self.url'
 
         self.user = AuthUserFactory()
-
+        self.user_two = AuthUserFactory()
         self.node_A = ProjectFactory(creator=self.user)
         self.node_B1 = NodeFactory(parent=self.node_A, creator=self.user)
         self.node_B2 = NodeFactory(parent=self.node_A, creator=self.user)
         self.node_C1 = NodeFactory(parent=self.node_B1, creator=self.user)
         self.node_C2 = NodeFactory(parent=self.node_B2, creator=self.user)
         self.node_D2 = NodeFactory(parent=self.node_C2, creator=self.user)
+        self.node_A.add_contributor(self.user_two, save=True)
 
         self.parent_url = '{}filter[parent]='.format(self.url)
         self.root_url ='{}filter[root]='.format(self.url)
+        self.tags_url ='{}filter[tags]='.format(self.url)
+        self.contributors_url ='{}filter[contributors]='.format(self.url)
 
     def test_parent_filter_null(self):
         expected = [self.node_A._id]
@@ -73,3 +76,21 @@ class NodesListFilteringMixin(object):
         res = self.app.get('{}{}'.format(self.root_url, self.node_A._id), auth=self.user.auth)
         actual = [node['id'] for node in res.json['data']]
         assert_equal(set(expected), set(actual))
+
+    def test_tag_filter(self):
+        self.node_A.add_tag('nerd', auth=Auth(self.node_A.creator), save=True)
+        expected = [self.node_A._id]
+        res = self.app.get('{}nerd'.format(self.tags_url), auth=self.user.auth)
+        actual = [node['id'] for node in res.json['data']]
+        assert_equal(expected, actual)
+
+        res = self.app.get('{}bird'.format(self.tags_url), auth=self.user.auth)
+        actual = [node['id'] for node in res.json['data']]
+        assert_equal([], actual)
+
+    def test_contributor_filter(self):
+        expected = [self.node_A._id]
+        res = self.app.get('{}{}'.format(self.contributors_url, self.user_two._id), auth=self.user.auth)
+        print '{}{}'.format(self.contributors_url, self.user_two._id)
+        actual = [node['id'] for node in res.json['data']]
+        assert_equal(expected, actual)

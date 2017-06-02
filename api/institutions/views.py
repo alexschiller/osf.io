@@ -155,6 +155,16 @@ class InstitutionNodeList(JSONAPIBaseView, NodesListFilterMixin, generics.ListAP
 
     ordering = ('-date_modified', )
 
+    def postprocess_query_param(self, key, field_name, operation):
+        if field_name == 'tags':
+            if operation['value'] not in (list(), tuple()):
+                operation['source_field_name'] = 'tags__name'
+                operation['op'] = 'iexact'
+        if field_name == 'contributors':
+            if operation['value'] not in (list(), tuple()):
+                operation['source_field_name'] = '_contributors__guids___id'
+                operation['op'] = 'iexact'
+
     # overrides ODMFilterMixin
     def get_default_odm_query(self):
         return (
