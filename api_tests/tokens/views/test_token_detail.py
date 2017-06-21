@@ -114,10 +114,10 @@ class TestTokenDetail(ApiTestCase):
         new_name = "The token formerly known as Prince"
         res = self.app.patch_json_api(self.user1_token_url,
                              {'data': {'attributes':
-                                  {'name': new_name, 'scopes':'osf.full_write'},
+                                  {'name': new_name, 'scopes': 'osf.full_write'},
                               'id': self.user1_token._id,
                               'type': 'tokens'
-                             }}, auth=self.user1.auth)
+                              }}, auth=self.user1.auth)
         user1_token.reload()
         assert_equal(res.status_code, 200)
 
@@ -134,7 +134,7 @@ class TestTokenDetail(ApiTestCase):
         new_name = "The token formerly known as Prince"
         res = self.app.patch_json_api(self.user1_token_url,
                                       {'data': {
-                                          'attributes': {"name": new_name, 'scopes':'osf.full_write'},
+                                          'attributes': {"name": new_name, 'scopes': 'osf.full_write'},
                                           'id': self.user1_token._id,
                                           'type': 'tokens'}}, auth=self.user1.auth)
         assert_equal(res.status_code, 200)
@@ -160,7 +160,7 @@ class TestTokenDetail(ApiTestCase):
     def test_create_with_admin_scope_fails(self):
         res = self.app.post_json_api(TOKEN_LIST_URL, self.injected_scope, auth=self.user1.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
-        
+
     def test_create_with_fake_scope_fails(self):
         res = self.app.post_json_api(TOKEN_LIST_URL, self.nonsense_scope, auth=self.user1.auth, expect_errors=True)
         assert_equal(res.status_code, 400)

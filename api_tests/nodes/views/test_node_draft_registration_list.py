@@ -91,7 +91,7 @@ class TestDraftRegistrationList(DraftRegistrationTestCase):
         assert_equal(res.status_code, 401)
 
     def test_draft_with_registered_node_does_not_show_up_in_draft_list(self):
-        reg = RegistrationFactory(project = self.public_project)
+        reg = RegistrationFactory(project=self.public_project)
         self.draft_registration.registered_node = reg
         self.draft_registration.save()
         res = self.app.get(self.url, auth=self.user.auth)
@@ -185,7 +185,7 @@ class TestDraftRegistrationCreate(DraftRegistrationTestCase):
         assert_equal(res.status_code, 404)
 
     def test_registration_supplement_must_be_active_metaschema(self):
-        schema =  MetaSchema.objects.get(name='Election Research Preacceptance Competition', active=False)
+        schema = MetaSchema.objects.get(name='Election Research Preacceptance Competition', active=False)
         draft_data = {
             "data": {
                 "type": "draft_registrations",
@@ -199,7 +199,7 @@ class TestDraftRegistrationCreate(DraftRegistrationTestCase):
         assert_equal(res.json['errors'][0]['detail'], 'Registration supplement must be an active schema.')
 
     def test_registration_supplement_must_be_most_recent_metaschema(self):
-        schema =  MetaSchema.find_one(
+        schema = MetaSchema.find_one(
             Q('name', 'eq', 'Open-Ended Registration') &
             Q('schema_version', 'eq', 1)
         )

@@ -50,7 +50,7 @@ class TestRegistrationForksList:
 
     @pytest.fixture()
     def public_registration(self, user, public_project, public_component):
-        return RegistrationFactory(project = public_project, creator=user, is_public=True)
+        return RegistrationFactory(project=public_project, creator=user, is_public=True)
 
     @pytest.fixture()
     def private_fork(self, user, private_registration):
@@ -123,7 +123,7 @@ class TestRegistrationForksList:
 
     def test_authentication(self, app, user, private_project, pointer, private_registration, private_registration_url, private_fork, private_component):
 
-    #   test_cannot_access_private_registration_forks_list_unauthenticated
+        #   test_cannot_access_private_registration_forks_list_unauthenticated
         res = app.get(private_registration_url, expect_errors=True)
         assert res.status_code == 401
         assert res.json['errors'][0]['detail'] == exceptions.NotAuthenticated.default_detail
@@ -325,7 +325,7 @@ class TestRegistrationForkCreate:
         pointer = ProjectFactory(creator=user)
         private_project.add_pointer(pointer, auth=Auth(user), save=True)
 
-        new_registration = RegistrationFactory(project = private_project, creator=user)
+        new_registration = RegistrationFactory(project=private_project, creator=user)
 
         url = '/{}registrations/{}/forks/{}'.format(API_BASE, new_registration._id, '?embed=node_links')
 

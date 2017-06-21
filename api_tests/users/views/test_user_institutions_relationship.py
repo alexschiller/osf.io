@@ -163,7 +163,7 @@ class TestUserInstititutionRelationship(ApiTestCase):
             self.url,
             {'data':
                 {'type': 'institutions', 'id': self.institution1._id}
-            },
+             },
             auth=self.user.auth, expect_errors=True
         )
 

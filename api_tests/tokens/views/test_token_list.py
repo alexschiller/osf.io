@@ -1,7 +1,7 @@
 import copy
 import mock
 
-from nose.tools import * # flake8: noqa
+from nose.tools import *  # flake8: noqa
 
 from osf.models import ApiOAuth2PersonalToken
 from website.util import api_v2_url
@@ -109,7 +109,7 @@ class TestTokenList(ApiTestCase):
             self.sample_data,
             auth=self.user1.auth,
             expect_errors=True
-        )
+                                     )
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'User requested invalid scope')
 
@@ -119,6 +119,6 @@ class TestTokenList(ApiTestCase):
             self.sample_data,
             auth=self.user1.auth,
             expect_errors=True
-        )
+                                     )
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'User requested invalid scope')

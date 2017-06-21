@@ -35,9 +35,9 @@ class RegistrationListFilteringMixin(object):
         self.node_B2 = RegistrationFactory(project=self.B2, creator=self.user)
 
         self.parent_url = '{}filter[parent]='.format(self.url)
-        self.root_url ='{}filter[root]='.format(self.url)
-        self.tags_url ='{}filter[tags]='.format(self.url)
-        self.contributors_url ='{}filter[contributors]='.format(self.url)
+        self.root_url = '{}filter[root]='.format(self.url)
+        self.tags_url = '{}filter[tags]='.format(self.url)
+        self.contributors_url = '{}filter[contributors]='.format(self.url)
 
     def test_parent_filter_null(self):
         expected = [self.node_A._id, self.node_B2._id]

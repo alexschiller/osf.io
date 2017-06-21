@@ -227,9 +227,9 @@ class TestNodeContributorList(NodeCRUDTestCase):
             save=True
         )
 
-        for i in range(0,10):
+        for i in range(0, 10):
             new_user = AuthUserFactory()
-            if i%2 == 0:
+            if i % 2 == 0:
                 visible = True
             else:
                 visible = False
@@ -347,7 +347,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
             }
         }
         self.data_user_three = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -360,7 +360,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
                         }
                     }
                 }
-             }
+            }
         }
 
     def test_add_node_contributors_relationships_is_a_list(self):
@@ -468,7 +468,6 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Request must include /type.')
 
-
     def test_add_contributor_no_target_id_in_relationships(self):
         data = {
             'data': {
@@ -531,7 +530,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
 
     def test_add_contributor_incorrect_type(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'Incorrect type',
                 'attributes': {
                     'bibliographic': True
@@ -572,7 +571,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_non_bibliographic_contributor_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': False
@@ -627,7 +626,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_contributor_without_bibliographic_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                 },
@@ -650,7 +649,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_admin_contributor_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -677,7 +676,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_write_contributor_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -704,7 +703,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_read_contributor_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -730,7 +729,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
 
     def test_adds_invalid_permission_contributor_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -755,7 +754,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
     @assert_logs(NodeLog.CONTRIB_ADDED, 'private_project')
     def test_adds_none_permission_contributor_private_project_admin_uses_default_permissions(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True,
@@ -789,7 +788,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
 
     def test_adds_non_existing_user_private_project_admin(self):
         data = {
-             'data': {
+            'data': {
                 'type': 'contributors',
                 'attributes': {
                     'bibliographic': True
@@ -961,7 +960,7 @@ class TestNodeContributorAdd(NodeCRUDTestCase):
         user = UserFactory()
         user.date_disabled = datetime.utcnow()
         user.save()
-        payload =  {
+        payload = {
             'data': {
                 'type': 'contributors',
                 'attributes': {
@@ -1309,35 +1308,35 @@ class TestNodeContributorBulkCreate(NodeCRUDTestCase):
         self.public_url = '/{}nodes/{}/contributors/?send_email=false'.format(API_BASE, self.public_project._id)
 
         self.payload_one = {
-                'type': 'contributors',
-                'attributes': {
+            'type': 'contributors',
+            'attributes': {
                     'bibliographic': True,
                     'permission': "admin"
-                },
-                'relationships': {
-                    'users': {
-                        'data': {
-                            'id': self.user_two._id,
-                            'type': 'users'
-                        }
+            },
+            'relationships': {
+                'users': {
+                    'data': {
+                        'id': self.user_two._id,
+                        'type': 'users'
                     }
                 }
+            }
         }
 
         self.payload_two = {
-                'type': 'contributors',
-                'attributes': {
+            'type': 'contributors',
+            'attributes': {
                     'bibliographic': False,
                     'permission': "read"
-                },
-                'relationships': {
-                    'users': {
-                        'data': {
-                            'id': self.user_three._id,
-                            'type': 'users'
-                        }
+            },
+            'relationships': {
+                'users': {
+                    'data': {
+                        'id': self.user_three._id,
+                        'type': 'users'
                     }
                 }
+            }
         }
 
     def test_bulk_create_contributors_blank_request(self):
@@ -1547,7 +1546,7 @@ class TestNodeContributorBulkUpdate(NodeCRUDTestCase):
         res = self.app.get(self.public_url)
         data = res.json['data']
         assert_items_equal([data[0]['attributes']['permission'], data[1]['attributes']['permission'], data[2]['attributes']['permission']],
-                           ['admin', 'read', 'read'] )
+                           ['admin', 'read', 'read'])
 
     def test_bulk_update_contributors_public_projects_logged_out(self):
         res = self.app.put_json_api(self.public_url, {'data': [self.payload_one_public, self.payload_two_public]},
@@ -1777,7 +1776,7 @@ class TestNodeContributorBulkPartialUpdate(NodeCRUDTestCase):
         res = self.app.get(self.public_url)
         data = res.json['data']
         assert_items_equal([data[0]['attributes']['permission'], data[1]['attributes']['permission'], data[2]['attributes']['permission']],
-                           ['admin', 'read', 'read'] )
+                           ['admin', 'read', 'read'])
 
     def test_bulk_partial_update_contributors_public_projects_logged_out(self):
         res = self.app.patch_json_api(self.public_url,
@@ -1896,7 +1895,6 @@ class TestNodeContributorBulkPartialUpdate(NodeCRUDTestCase):
         assert_items_equal([data[0]['attributes']['permission'], data[1]['attributes']['permission'], data[2]['attributes']['permission']],
                            ['admin', 'read', 'read'])
 
-
     def test_bulk_partial_update_invalid_bibliographic(self):
         res = self.app.patch_json_api(self.public_url, {'data': [self.public_payload_two, {'id': make_contrib_id(self.public_project._id, self.user_two._id), 'type': 'contributors', 'attributes': {'bibliographic': 'true and false'}}]},
                                     auth=self.user.auth, expect_errors=True, bulk=True)
@@ -1949,19 +1947,19 @@ class TestNodeContributorBulkDelete(NodeCRUDTestCase):
         assert_equal(res.status_code, 400)
 
     def test_bulk_delete_invalid_id_format(self):
-        res = self.app.delete_json_api(self.public_url, {'data': [{'id': '12345', 'type':'contributors'}]}, auth=self.user.auth,
+        res = self.app.delete_json_api(self.public_url, {'data': [{'id': '12345', 'type': 'contributors'}]}, auth=self.user.auth,
                                        expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Contributor identifier incorrectly formatted.')
 
     def test_bulk_delete_invalid_id(self):
-        res = self.app.delete_json_api(self.public_url, {'data': [{'id': '12345-abcde', 'type':'contributors'}]}, auth=self.user.auth,
+        res = self.app.delete_json_api(self.public_url, {'data': [{'id': '12345-abcde', 'type': 'contributors'}]}, auth=self.user.auth,
                                        expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Could not find all objects to delete.')
 
     def test_bulk_delete_non_contributor(self):
-        res = self.app.delete_json_api(self.public_url, {'data': [{'id': make_contrib_id(self.public_project._id, self.user_four._id), 'type':'contributors'}]}, auth=self.user.auth,
+        res = self.app.delete_json_api(self.public_url, {'data': [{'id': make_contrib_id(self.public_project._id, self.user_four._id), 'type': 'contributors'}]}, auth=self.user.auth,
                                        expect_errors=True, bulk=True)
         assert_equal(res.status_code, 404)
 
@@ -2089,7 +2087,7 @@ class TestNodeContributorBulkDelete(NodeCRUDTestCase):
         assert_equal(len(res.json['data']), 3)
 
     def test_bulk_delete_contributors_limits(self):
-        new_payload = {'data': [self.public_payload_one] * 101 }
+        new_payload = {'data': [self.public_payload_one] * 101}
         res = self.app.delete_json_api(self.public_url, new_payload, auth=self.user.auth, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Bulk operation limit is 100, got 101.')
@@ -2098,4 +2096,3 @@ class TestNodeContributorBulkDelete(NodeCRUDTestCase):
     def test_bulk_delete_contributors_no_payload(self):
         res = self.app.delete_json_api(self.public_url, auth=self.user.auth, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
-

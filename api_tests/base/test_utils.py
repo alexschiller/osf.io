@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from nose.tools import *  # flake8: noqa
-import mock # noqa
+import mock  # noqa
 import unittest
 
 from rest_framework import fields

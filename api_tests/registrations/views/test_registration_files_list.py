@@ -25,7 +25,6 @@ class TestRegistrationFilesList(object):
         self.file = self.folder.append_file('So, on average, it has been super comfortable this week')
         self.file.save()
 
-
     def test_registration_relationships_contains_guid_not_id(self):
         url = '/{}registrations/{}/files/{}/'.format(API_BASE, self.registration._id, self.file.provider)
         res = self.app.get(url, auth=self.user.auth)

@@ -192,7 +192,6 @@ class TestNodeLinkCreate(ApiTestCase):
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], "Malformed request.")
 
-
     def test_add_node_link_no_relationships(self):
         data = {
             'data': {
@@ -264,7 +263,6 @@ class TestNodeLinkCreate(ApiTestCase):
         res = self.app.post_json_api(self.public_url, data, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Request must include /type.')
-
 
     def test_add_node_links_no_target_id_in_relationships(self):
         data = {
@@ -507,7 +505,7 @@ class TestNodeLinksBulkCreate(ApiTestCase):
 
                 }
             },
-            {
+                {
                 "type": "node_links",
                 "relationships": {
                     'nodes': {
@@ -539,7 +537,7 @@ class TestNodeLinksBulkCreate(ApiTestCase):
 
                 }
             },
-            {
+                {
                 "type": "node_links",
                 "relationships": {
                     'nodes': {
@@ -560,14 +558,14 @@ class TestNodeLinksBulkCreate(ApiTestCase):
             'type': 'node_links',
             'relationships': {
                 'nodes': {
-                     'data': {
-                         'id': self.user_two_project._id,
-                         'type': 'nodes'
-                     }
+                    'data': {
+                        'id': self.user_two_project._id,
+                        'type': 'nodes'
+                    }
                 }
             }
         }
-    ]}
+        ]}
 
     def test_bulk_create_node_links_blank_request(self):
         res = self.app.post_json_api(self.public_url, auth=self.user.auth, expect_errors=True, bulk=True)
@@ -614,7 +612,6 @@ class TestNodeLinksBulkCreate(ApiTestCase):
 
         embedded = res_json[1]['embeds']['target_node']['data']['id']
         assert_equal(embedded, self.public_pointer_project_two._id)
-
 
     def test_bulk_creates_private_node_pointers_logged_out(self):
         res = self.app.post_json_api(self.private_url, self.private_payload, expect_errors=True, bulk=True)
@@ -764,11 +761,11 @@ class TestBulkDeleteNodeLinks(ApiTestCase):
         self.pointer_two = self.project.add_pointer(self.pointer_project_two, auth=Auth(self.user), save=True)
 
         self.private_payload = {
-              "data": [
+            "data": [
                 {"type": "node_links", "id": self.pointer._id},
                 {"type": "node_links", "id": self.pointer_two._id}
-              ]
-            }
+            ]
+        }
 
         self.private_url = '/{}nodes/{}/node_links/'.format(API_BASE, self.project._id)
 
@@ -786,11 +783,11 @@ class TestBulkDeleteNodeLinks(ApiTestCase):
                                                               save=True)
 
         self.public_payload = {
-              'data': [
+            'data': [
                 {'type': 'node_links', 'id': self.public_pointer._id},
                 {'type': 'node_links', 'id': self.public_pointer_two._id}
-              ]
-            }
+            ]
+        }
 
         self.public_url = '/{}nodes/{}/node_links/'.format(API_BASE, self.public_project._id)
 
@@ -940,4 +937,3 @@ class TestBulkDeleteNodeLinks(ApiTestCase):
         errors = res.json['errors']
         assert_equal(len(errors), 1)
         assert_equal(errors[0]['detail'], 'Node link does not belong to the requested node.')
-

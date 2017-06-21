@@ -179,7 +179,7 @@ class TestDeleteNodeLink(ApiTestCase):
     @assert_logs(NodeLog.POINTER_REMOVED, 'public_project')
     def test_return_deleted_public_node_pointer(self):
         res = self.app.delete(self.public_url, auth=self.user.auth)
-        self.public_project.reload() # Update the model to reflect changes made by post request
+        self.public_project.reload()  # Update the model to reflect changes made by post request
         assert_equal(res.status_code, 204)
 
         #check that deleted pointer can not be returned
@@ -209,4 +209,3 @@ class TestDeleteNodeLink(ApiTestCase):
         errors = res.json['errors']
         assert_equal(len(errors), 1)
         assert_equal(errors[0]['detail'], 'Not found.')
-

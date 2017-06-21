@@ -83,7 +83,6 @@ class TestCollectionCreate(ApiTestCase):
         user_one_bookmark.save()
         user_two_bookmark.save()
 
-
     def test_collection_create_invalid_data(self):
         res = self.app.post_json_api(self.url, "Incorrect data", auth=self.user_one.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
@@ -105,7 +104,7 @@ class TestCollectionCreate(ApiTestCase):
         assert_equal(res.json['data']['attributes']['title'], self.title)
         assert_equal(res.content_type, 'application/vnd.api+json')
         assert_equal(res.json['data']['type'], 'collections')
-        res = self.app.get(self.url+'?filter[title]={}'.format(self.title), auth=self.user_one.auth)
+        res = self.app.get(self.url + '?filter[title]={}'.format(self.title), auth=self.user_one.auth)
         ids = [each['id'] for each in res.json['data']]
         assert_in(pid, ids)
         collection = Node.load(pid)
@@ -587,13 +586,13 @@ class TestCollectionUpdate(CollectionCRUDTestCase):
 
     def test_partial_update_invalid_id(self):
         res = self.app.patch_json_api(self.url, {
-                'data': {
-                    'id': '12345',
-                    'type': 'collections',
-                    'attributes': {
+            'data': {
+                'id': '12345',
+                'type': 'collections',
+                'attributes': {
                         'title': self.new_title,
-                    }
                 }
+            }
         }, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 409)
 
@@ -1173,20 +1172,20 @@ class TestCollectionBulkCreate(ApiTestCase):
         self.user_two = AuthUserFactory()
 
         self.collection = {
-                'type': 'collections',
-                'attributes': {
+            'type': 'collections',
+            'attributes': {
                     'title': self.title,
-                }
+            }
         }
 
         self.collection_two = {
-                'type': 'collections',
-                'attributes': {
+            'type': 'collections',
+            'attributes': {
                     'title': self.title_two,
-                }
+            }
         }
 
-        self.empty_collection = {'type': 'collections', 'attributes': {'title': "",}}
+        self.empty_collection = {'type': 'collections', 'attributes': {'title': "", }}
 
         # Pretend these aren't created when the user is
         user_one_bookmark = find_bookmark_collection(self.user_one)
@@ -1335,8 +1334,8 @@ class TestCollectionBulkUpdate(ApiTestCase):
         self.detail_url_base = '/{}collections/{}/'
 
         self.empty_payload = {'data': [
-            {'id': self.collection._id, 'type': 'collections', 'attributes': {'title': "",}},
-            {'id': self.collection_two._id, 'type': 'collections', 'attributes': {'title': "",}}
+            {'id': self.collection._id, 'type': 'collections', 'attributes': {'title': "", }},
+            {'id': self.collection_two._id, 'type': 'collections', 'attributes': {'title': "", }}
         ]}
 
     def test_bulk_update_nodes_blank_request(self):
@@ -1347,21 +1346,21 @@ class TestCollectionBulkUpdate(ApiTestCase):
         payload = {
             "data": [
                 {
-                  "id": self.collection._id,
-                  "type": "collections",
-                  "attributes": {
-                    "title": "This shouldn't update."
-                  }
+                    "id": self.collection._id,
+                    "type": "collections",
+                    "attributes": {
+                        "title": "This shouldn't update."
+                    }
                 },
                 {
-                  "id": self.collection_two._id,
-                  "type": "collections",
-                  "attributes": {
-                    "title": " "
-                  }
+                    "id": self.collection_two._id,
+                    "type": "collections",
+                    "attributes": {
+                        "title": " "
+                    }
                 }
-              ]
-            }
+            ]
+        }
         url = self.detail_url_base.format(API_BASE, self.collection._id)
         res = self.app.put_json_api(self.url, payload, auth=self.user.auth, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
@@ -1624,7 +1623,7 @@ class TestCollectionLinksBulkCreate(ApiTestCase):
                     }
                 }
             },
-            {
+                {
                 "type": "node_links",
                 "relationships": {
                     'target_node': {
@@ -1635,7 +1634,7 @@ class TestCollectionLinksBulkCreate(ApiTestCase):
                     }
                 }
             },
-            {
+                {
                 "type": "node_links",
                 "relationships": {
                     'target_node': {
@@ -1646,7 +1645,7 @@ class TestCollectionLinksBulkCreate(ApiTestCase):
                     }
                 }
             },
-            {
+                {
                 "type": "node_links",
                 "relationships": {
                     'target_node': {
@@ -1671,24 +1670,24 @@ class TestCollectionLinksBulkCreate(ApiTestCase):
             'type': 'node_links',
             'relationships': {
                 'nodes': {
-                     'data': {
-                         'id': self.user_two_project._id,
-                         'type': 'nodes'
-                     }
+                    'data': {
+                        'id': self.user_two_project._id,
+                        'type': 'nodes'
+                    }
                 }
             }
         },
-        { 'type': 'node_links',
+            {'type': 'node_links',
             'relationships': {
                 'nodes': {
-                     'data': {
-                         'id': self.user_two_registration._id,
-                         'type': 'nodes'
-                     }
+                    'data': {
+                        'id': self.user_two_registration._id,
+                        'type': 'nodes'
+                    }
                 }
             }
         }
-    ]}
+        ]}
 
     def test_bulk_create_node_links_blank_request(self):
         res = self.app.post_json_api(self.collection_url, auth=self.user.auth, expect_errors=True, bulk=True)
@@ -1837,11 +1836,11 @@ class TestBulkDeleteCollectionNodeLinks(ApiTestCase):
         self.pointer_two = self.collection.add_pointer(self.pointer_project_two, auth=Auth(self.user), save=True)
 
         self.collection_payload = {
-              "data": [
+            "data": [
                 {"type": "node_links", "id": self.pointer._id},
                 {"type": "node_links", "id": self.pointer_two._id}
-              ]
-            }
+            ]
+        }
 
         self.collection_url = '/{}collections/{}/node_links/'.format(API_BASE, self.collection._id)
 
@@ -1856,14 +1855,14 @@ class TestBulkDeleteCollectionNodeLinks(ApiTestCase):
                                                               save=True)
         self.collection_two_pointer_two = self.collection_two.add_pointer(self.collection_two_pointer_project_two,
                                                               auth=Auth(self.user),
-                                                              save=True)
+            save=True)
 
         self.collection_two_payload = {
-              'data': [
+            'data': [
                 {'type': 'node_links', 'id': self.collection_two_pointer._id},
                 {'type': 'node_links', 'id': self.collection_two_pointer_two._id}
-              ]
-            }
+            ]
+        }
 
         self.collection_two_url = '/{}collections/{}/node_links/'.format(API_BASE, self.collection_two._id)
 
@@ -2263,40 +2262,40 @@ class TestCollectionRelationshipNodeLinks(ApiTestCase):
 
     def test_creates_public_linked_node_relationship_logged_out(self):
         res = self.app.post_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_creates_public_linked_node_relationship_logged_in(self):
         res = self.app.post_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)
 
     def test_creates_private_linked_node_relationship_logged_out(self):
         res = self.app.post_json_api(
-                self.url, self.payload([self.other_node._id]),
-                expect_errors=True
+            self.url, self.payload([self.other_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_put_public_nodes_relationships_logged_out(self):
         res = self.app.put_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_put_public_nodes_relationships_logged_in(self):
         res = self.app.put_json_api(
-                self.public_url, self.payload([self.private_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.private_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)
@@ -2311,8 +2310,8 @@ class TestCollectionRelationshipNodeLinks(ApiTestCase):
 
     def test_delete_public_nodes_relationships_logged_in(self):
         res = self.app.delete_json_api(
-                self.public_url, self.payload([self.private_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.private_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)

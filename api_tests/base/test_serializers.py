@@ -96,7 +96,7 @@ class TestNodeSerializerAndRegistrationSerializerDifferences(ApiTestCase):
         super(TestNodeSerializerAndRegistrationSerializerDifferences, self).setUp()
 
         self.node = factories.ProjectFactory(is_public=True)
-        self.registration = factories.RegistrationFactory(project = self.node, is_public=True)
+        self.registration = factories.RegistrationFactory(project=self.node, is_public=True)
 
         self.url = '/{}nodes/{}/'.format(API_BASE, self.node._id)
         self.reg_url = '/{}registrations/{}/'.format(API_BASE, self.registration._id)
@@ -253,7 +253,6 @@ class TestApiBaseSerializers(ApiTestCase):
         res = self.app.get(self.url, params={'related_counts': 'title'}, expect_errors=True)
         assert_equal(res.status_code, http.BAD_REQUEST)
         assert_equal(res.json['errors'][0]['detail'], "Acceptable values for the related_counts query param are 'true', 'false', or any of the relationship fields; got 'title'")
-
 
 
 @pytest.mark.django_db

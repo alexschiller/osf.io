@@ -28,12 +28,14 @@ class TestTaxonomy(ApiTestCase):
 
     def test_taxonomy_text(self):
         for index, subject in enumerate(self.subjects):
-            if index >= len(self.data): break  # only iterate though first page of results
+            if index >= len(self.data):
+                break  # only iterate though first page of results
             assert_equal(self.data[index]['attributes']['text'], subject.text)
 
     def test_taxonomy_parents(self):
         for index, subject in enumerate(self.subjects):
-            if index >= len(self.data): break
+            if index >= len(self.data):
+                break
             parents_ids = []
             for parent in self.data[index]['attributes']['parents']:
                 parents_ids.append(parent['id'])

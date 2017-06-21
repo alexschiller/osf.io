@@ -49,7 +49,6 @@ class VersioningTestCase(ApiTestCase):
         settings.REST_FRAMEWORK['DEFAULT_VERSION'] = self._DEFAULT_VERSION
 
 
-
 class TestBaseVersioning(VersioningTestCase):
 
     def setUp(self):
@@ -105,8 +104,8 @@ class TestBaseVersioning(VersioningTestCase):
         assert_equal(
             res.json['errors'][0]['detail'],
             'Version {} specified in "Accept" header does not fall within URL path version {}'.format(
-                    '3.0.1',
-                    self.valid_url_path_version
+                '3.0.1',
+                self.valid_url_path_version
             )
         )
 

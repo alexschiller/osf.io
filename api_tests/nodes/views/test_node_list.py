@@ -104,12 +104,11 @@ class TestNodeList(ApiTestCase):
             ) is not None for each in res.json['data']])
         )
 
-
     def test_node_list_has_proper_root(self):
         project_one = ProjectFactory(title="Project One", is_public=True)
         ProjectFactory(parent=project_one, is_public=True)
 
-        res = self.app.get(self.url+'?embed=root&embed=parent', auth=self.user.auth)
+        res = self.app.get(self.url + '?embed=root&embed=parent', auth=self.user.auth)
 
         for project_json in res.json['data']:
             project = Node.load(project_json['id'])
@@ -885,7 +884,7 @@ class TestNodeCreate(ApiTestCase):
         parent_project = ProjectFactory(creator=self.user_one)
         parent_project.add_unregistered_contributor(
             fullname='far', email='foo@bar.baz', permissions=[permissions.READ],
-            auth= Auth(user=self.user_one), save=True
+            auth=Auth(user=self.user_one), save=True
         )
         url = '/{}nodes/{}/children/?inherit_contributors=true'.format(API_BASE, parent_project._id)
         component_data = {
@@ -984,23 +983,23 @@ class TestNodeBulkCreate(ApiTestCase):
         self.user_two = AuthUserFactory()
 
         self.public_project = {
-                'type': 'nodes',
-                'attributes': {
+            'type': 'nodes',
+            'attributes': {
                     'title': self.title,
                     'description': self.description,
                     'category': self.category,
                     'public': True
-                }
+            }
         }
 
         self.private_project = {
-                'type': 'nodes',
-                'attributes': {
+            'type': 'nodes',
+            'attributes': {
                     'title': self.title,
                     'description': self.description,
                     'category': self.category,
                     'public': False
-                }
+            }
         }
 
         self.empty_project = {'type': 'nodes', 'attributes': {'title': "", 'description': "", "category": ""}}
@@ -1178,29 +1177,28 @@ class TestNodeBulkUpdate(ApiTestCase):
                                               creator=self.user)
 
         self.private_payload = {'data': [
-                {
-                    'id': self.private_project._id,
-                    'type': 'nodes',
-                    'attributes': {
+            {
+                'id': self.private_project._id,
+                'type': 'nodes',
+                'attributes': {
                         'title': self.new_title,
                         'description': self.new_description,
                         'category': self.new_category,
                         'public': False
-                    }
-                },
-                {
-                    'id': self.private_project_two._id,
-                    'type': 'nodes',
-                    'attributes': {
-                        'title': self.new_title,
-                        'description': self.new_description,
-                        'category': self.new_category,
-                        'public': False
-                    }
                 }
-            ]
+            },
+            {
+                'id': self.private_project_two._id,
+                'type': 'nodes',
+                'attributes': {
+                        'title': self.new_title,
+                        'description': self.new_description,
+                        'category': self.new_category,
+                        'public': False
+                }
+            }
+        ]
         }
-
 
         self.empty_payload = {'data': [
             {'id': self.public_project._id, 'type': 'nodes', 'attributes': {'title': "", 'description': "", "category": ""}},
@@ -1215,23 +1213,23 @@ class TestNodeBulkUpdate(ApiTestCase):
         payload = {
             "data": [
                 {
-                  "id": self.public_project._id,
-                  "type": "nodes",
-                  "attributes": {
-                    "title": "This shouldn't update.",
-                    "category": "instrumentation"
-                  }
+                    "id": self.public_project._id,
+                    "type": "nodes",
+                    "attributes": {
+                        "title": "This shouldn't update.",
+                        "category": "instrumentation"
+                    }
                 },
                 {
-                  "id": self.public_project_two._id,
-                  "type": "nodes",
-                  "attributes": {
-                    "title": " ",
-                    "category": "hypothesis"
-                  }
+                    "id": self.public_project_two._id,
+                    "type": "nodes",
+                    "attributes": {
+                        "title": " ",
+                        "category": "hypothesis"
+                    }
                 }
-              ]
-            }
+            ]
+        }
         url = '/{}nodes/{}/'.format(API_BASE, self.public_project._id)
         res = self.app.put_json_api(self.url, payload, auth=self.user.auth, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
@@ -1262,11 +1260,9 @@ class TestNodeBulkUpdate(ApiTestCase):
         assert_equal(res.status_code, 400)
         assert_equal(res.json['errors'][0]['detail'], 'Could not find all objects to update.')
 
-
         url = '/{}nodes/{}/'.format(API_BASE, self.public_project._id)
         res = self.app.get(url)
         assert_equal(res.json['data']['attributes']['title'], self.title)
-
 
     def test_bulk_update_public_projects_logged_out(self):
         res = self.app.put_json_api(self.url, self.public_payload, expect_errors=True, bulk=True)
@@ -1294,7 +1290,6 @@ class TestNodeBulkUpdate(ApiTestCase):
         res = self.app.put_json_api(self.url, self.private_payload, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 401)
         assert_equal(res.json['errors'][0]['detail'], 'Authentication credentials were not provided.')
-
 
         url = '/{}nodes/{}/'.format(API_BASE, self.private_project._id)
         url_two = '/{}nodes/{}/'.format(API_BASE, self.private_project_two._id)
@@ -1545,7 +1540,6 @@ class TestNodeBulkPartialUpdate(ApiTestCase):
         assert_equal(res.status_code, 401)
         assert_equal(res.json['errors'][0]['detail'], 'Authentication credentials were not provided.')
 
-
         url = '/{}nodes/{}/'.format(API_BASE, self.private_project._id)
         url_two = '/{}nodes/{}/'.format(API_BASE, self.private_project_two._id)
 
@@ -1607,7 +1601,7 @@ class TestNodeBulkPartialUpdate(ApiTestCase):
         assert_items_equal([errors[0]['source'], errors[1]['source']],
                            [{'pointer': '/data/0/attributes/title'}, {'pointer': '/data/1/attributes/title'}])
         assert_items_equal([errors[0]['detail'], errors[1]['detail']],
-                           ['This field may not be blank.']*2)
+                           ['This field may not be blank.'] * 2)
 
     def test_bulk_partial_update_id_not_supplied(self):
         res = self.app.patch_json_api(self.url, {'data': [{'type': 'nodes', 'attributes': {'title': self.new_title}}]},
@@ -1617,7 +1611,7 @@ class TestNodeBulkPartialUpdate(ApiTestCase):
         assert_equal(res.json['errors'][0]['detail'], 'This field may not be null.')
 
     def test_bulk_partial_update_limits(self):
-        node_update_list = {'data': [self.public_payload['data'][0]] * 101 }
+        node_update_list = {'data': [self.public_payload['data'][0]] * 101}
         res = self.app.patch_json_api(self.url, node_update_list, auth=self.user.auth, expect_errors=True, bulk=True)
         assert_equal(res.json['errors'][0]['detail'], 'Bulk operation limit is 100, got 101.')
         assert_equal(res.json['errors'][0]['source']['pointer'], '/data')
@@ -1692,7 +1686,7 @@ class TestNodeBulkUpdateSkipUneditable(ApiTestCase):
                         'public': True
                     }
                 },
-                 {
+                {
                     'id': self.public_project_three._id,
                     'type': 'nodes',
                     'attributes': {
@@ -1702,7 +1696,7 @@ class TestNodeBulkUpdateSkipUneditable(ApiTestCase):
                         'public': True
                     }
                 },
-                 {
+                {
                     'id': self.public_project_four._id,
                     'type': 'nodes',
                     'attributes': {
@@ -1735,7 +1729,6 @@ class TestNodeBulkUpdateSkipUneditable(ApiTestCase):
         assert_equal(self.public_project_two.title, self.new_title)
         assert_equal(self.public_project_three.title, self.title)
         assert_equal(self.public_project_four.title, self.title)
-
 
     def test_skip_uneditable_bulk_update_query_param_required(self):
         url = '/{}nodes/'.format(API_BASE)
@@ -1783,7 +1776,6 @@ class TestNodeBulkUpdateSkipUneditable(ApiTestCase):
         assert_equal(self.public_project_two.title, self.new_title)
         assert_equal(self.public_project_three.title, self.title)
         assert_equal(self.public_project_four.title, self.title)
-
 
     def test_skip_uneditable_bulk_partial_update_query_param_required(self):
         url = '/{}nodes/'.format(API_BASE)
@@ -1959,7 +1951,7 @@ class TestNodeBulkDelete(ApiTestCase):
         assert_equal(res.status_code, 200)
 
     def test_bulk_delete_limits(self):
-        new_payload = {'data': [{'id': self.private_project_user_one._id, 'type':'nodes'}] * 101 }
+        new_payload = {'data': [{'id': self.private_project_user_one._id, 'type': 'nodes'}] * 101}
         res = self.app.delete_json_api(self.url, new_payload,
                                        auth=self.user_one.auth, expect_errors=True, bulk=True)
         assert_equal(res.status_code, 400)
@@ -1987,7 +1979,7 @@ class TestNodeBulkDeleteSkipUneditable(ApiTestCase):
         self.user_one = AuthUserFactory()
         self.user_two = AuthUserFactory()
         self.project_one = ProjectFactory(title="Project One", is_public=True, creator=self.user_one)
-        self.project_two = ProjectFactory(title="Project Two",  is_public=True, creator=self.user_one)
+        self.project_two = ProjectFactory(title="Project Two", is_public=True, creator=self.user_one)
         self.project_three = ProjectFactory(title="Project Three", is_public=True, creator=self.user_two)
         self.project_four = ProjectFactory(title="Project Four", is_public=True, creator=self.user_two)
 
@@ -2001,18 +1993,16 @@ class TestNodeBulkDeleteSkipUneditable(ApiTestCase):
                     'id': self.project_two._id,
                     'type': 'nodes',
                 },
-                 {
+                {
                     'id': self.project_three._id,
                     'type': 'nodes',
                 },
-                 {
+                {
                     'id': self.project_four._id,
                     'type': 'nodes',
                 }
             ]
         }
-
-
 
         self.url = "/{}nodes/?skip_uneditable=True".format(API_BASE)
 
@@ -2096,7 +2086,7 @@ class TestNodeListPagination(ApiTestCase):
         assert_equal(res.json['links']['meta']['per_page'], 10)
 
     def test_max_page_size_enforced(self):
-        url = '{}?page[size]={}'.format(self.url, MAX_PAGE_SIZE+1)
+        url = '{}?page[size]={}'.format(self.url, MAX_PAGE_SIZE + 1)
         res = self.app.get(url, auth=Auth(self.users[0]))
         pids = [e['id'] for e in res.json['data']]
         for project in self.projects:
@@ -2107,7 +2097,7 @@ class TestNodeListPagination(ApiTestCase):
         for user in self.users[1:]:
             self.projects[-1].add_contributor(user, auth=Auth(self.users[0]), save=True)
 
-        url = '{}?page[size]={}&embed=contributors'.format(self.url, MAX_PAGE_SIZE+1)
+        url = '{}?page[size]={}&embed=contributors'.format(self.url, MAX_PAGE_SIZE + 1)
         res = self.app.get(url, auth=Auth(self.users[0]))
         pids = [e['id'] for e in res.json['data']]
         for project in self.projects:

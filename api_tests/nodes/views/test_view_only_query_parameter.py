@@ -143,7 +143,7 @@ class TestNodeDetailViewOnlyLinks(ViewOnlyTestCase):
         payload = {
             'data': {
                 'attributes': {
-                    'title': 'Cannot touch this' },
+                    'title': 'Cannot touch this'},
                 'id': self.private_node_one._id,
                 'type': 'nodes',
             }
@@ -160,7 +160,7 @@ class TestNodeDetailViewOnlyLinks(ViewOnlyTestCase):
         assert_equal(res.status_code, 401)
 
     def test_private_project_logs_with_anonymous_link_does_not_expose_user_id(self):
-        res = self.app.get(self.private_node_one_url+'logs/', {
+        res = self.app.get(self.private_node_one_url + 'logs/', {
             'view_only': str(self.private_node_one_anonymous_link.key),
         })
         assert_equal(res.status_code, 200)
@@ -185,11 +185,11 @@ class TestNodeDetailViewOnlyLinks(ViewOnlyTestCase):
         assert_not_in('forks', embeds, 'Add forks view to blacklist in hide_view_when_anonymous().')
 
     def test_bad_view_only_link_does_not_modify_permissions(self):
-        res = self.app.get(self.private_node_one_url+'logs/', {
+        res = self.app.get(self.private_node_one_url + 'logs/', {
             'view_only': 'thisisnotarealprivatekey',
         }, expect_errors=True)
         assert_equal(res.status_code, 401)
-        res = self.app.get(self.private_node_one_url+'logs/', {
+        res = self.app.get(self.private_node_one_url + 'logs/', {
             'view_only': 'thisisnotarealprivatekey',
         }, auth=self.creation_user.auth)
         assert_equal(res.status_code, 200)

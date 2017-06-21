@@ -179,7 +179,7 @@ class TestFileView(ApiTestCase):
             self.file_url,
             auth=self.user.auth
         )
-        assert_equal(self.node.logs.count(),2)
+        assert_equal(self.node.logs.count(), 2)
         assert_equal(self.node.logs.latest().action, NodeLog.CHECKED_OUT)
         assert_equal(self.node.logs.latest().user, self.user)
         assert_equal(
@@ -433,7 +433,7 @@ class TestFileView(ApiTestCase):
                 osfstorage_settings.WATERBUTLER_RESOURCE: 'osf',
             }, {'size': 1337,
                 'contentType': 'img/png'
-            }).save()
+                }).save()
             res = self.app.get(self.file_url, auth=self.user.auth)
             assert_equal(res.json['data']['attributes']['current_version'], version)
 

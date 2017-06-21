@@ -11,7 +11,6 @@ from osf_tests.factories import (
 
 class TestLogEmbeds(ApiTestCase):
 
-
     def setUp(self):
         super(TestLogEmbeds, self).setUp()
 

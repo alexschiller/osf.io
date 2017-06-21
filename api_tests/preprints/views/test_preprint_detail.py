@@ -128,7 +128,7 @@ class TestPreprintUpdate(ApiTestCase):
         assert_equal(self.preprint.subjects, subjects)
 
     def test_update_primary_file(self):
-        new_file = test_utils.create_test_file(self.preprint.node, self.user,  filename='openupthatwindow.pdf')
+        new_file = test_utils.create_test_file(self.preprint.node, self.user, filename='openupthatwindow.pdf')
         relationships = {
             "primary_file": {
                 "data": {
@@ -192,7 +192,7 @@ class TestPreprintUpdate(ApiTestCase):
         new_file = test_utils.create_test_file(self.preprint.node, self.user, filename='openupthatwindow.pdf')
 
         data = {
-            'data':{
+            'data': {
                 'type': 'primary_file',
                 'id': self.preprint._id,
                 'attributes': {},
@@ -215,7 +215,7 @@ class TestPreprintUpdate(ApiTestCase):
         new_file = test_utils.create_test_file(self.preprint.node, self.user, filename='openupthatwindow.pdf')
 
         data = {
-            'data':{
+            'data': {
                 'type': 'primary_file',
                 'id': self.preprint._id,
                 'attributes': {},
@@ -647,7 +647,7 @@ class TestPreprintUpdateLicense(ApiTestCase):
 class TestPreprintIsPublishedDetail(ApiTestCase):
     def setUp(self):
         super(TestPreprintIsPublishedDetail, self).setUp()
-        self.admin= AuthUserFactory()
+        self.admin = AuthUserFactory()
         self.write_contrib = AuthUserFactory()
         self.non_contrib = AuthUserFactory()
 

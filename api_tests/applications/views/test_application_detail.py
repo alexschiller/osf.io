@@ -90,7 +90,7 @@ class TestApplicationDetail:
                                   {'name': new_name},
                               'id': user_app.client_id,
                               'type': 'applications'
-                             }}, auth=user.auth, expect_errors=True)
+                              }}, auth=user.auth, expect_errors=True)
         user_app_copy.reload()
         assert res.status_code == 200
 

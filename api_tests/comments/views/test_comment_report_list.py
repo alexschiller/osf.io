@@ -340,5 +340,3 @@ class TestFileCommentReportsView(CommentReportsMixin, ApiTestCase):
         }
         self.public_comment.save()
         self.public_url = '/{}comments/{}/reports/'.format(API_BASE, self.public_comment._id)
-
-

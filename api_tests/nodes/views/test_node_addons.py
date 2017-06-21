@@ -78,7 +78,7 @@ class NodeAddonListMixin(object):
         res = self.app.put_json_api(self.setting_list_url, {
             'id': self.short_name,
             'type': 'node-addons'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -86,7 +86,7 @@ class NodeAddonListMixin(object):
         res = self.app.patch_json_api(self.setting_list_url, {
             'id': self.short_name,
             'type': 'node-addons'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -166,9 +166,9 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': self.account_id,
-                    }
                 }
-            }
+                }
+                }
         data['data']['attributes'].update(self._mock_folder_info)
         res = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth,
@@ -181,7 +181,6 @@ class NodeAddonDetailMixin(object):
         if wrong_type:
             assert_in(res.status_code, [404, 501])
 
-
     def test_settings_detail_PUT_none_and_enabled_clears_settings(self):
         wrong_type = self.should_expect_errors(success_types=('CONFIGURABLE', ))
         res = self.app.put_json_api(self.setting_detail_url,
@@ -191,8 +190,8 @@ class NodeAddonDetailMixin(object):
                 'attributes': {
                     'external_account_id': None,
                     'folder_id': None
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=wrong_type)
         if not wrong_type:
@@ -212,8 +211,8 @@ class NodeAddonDetailMixin(object):
                 'attributes': {
                     'external_account_id': None,
                     'folder_id': None
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=wrong_type)
         if not wrong_type:
@@ -248,8 +247,8 @@ class NodeAddonDetailMixin(object):
                 'id': self.short_name,
                 'type': 'node_addons',
                 'attributes': {
-                    }
                 }
+            }
             },
             auth=self.user.auth,
             expect_errors=wrong_type)
@@ -275,8 +274,8 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': self.account_id,
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=wrong_type)
         if not wrong_type:
@@ -295,8 +294,8 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': None,
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=wrong_type)
         if not wrong_type:
@@ -320,8 +319,8 @@ class NodeAddonDetailMixin(object):
             'id': self.short_name,
             'type': 'node_addons',
             'attributes': {
-                }
             }
+        }
         }
         data['data']['attributes'].update(self._mock_folder_info)
         res = self.app.patch_json_api(self.setting_detail_url,
@@ -343,8 +342,8 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': None,
-                    }
                 }
+            }
             }, auth=read_user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 403)
@@ -372,7 +371,7 @@ class NodeAddonDetailMixin(object):
         # if not wrong_type:
         assert_equal(res.status_code, 404)
         # else:
-            # assert_equal(res.status_code, 405)
+        # assert_equal(res.status_code, 405)
 
     def test_settings_detail_raises_error_if_POST_already_configured(self):
         wrong_type = self.should_expect_errors()
@@ -381,8 +380,8 @@ class NodeAddonDetailMixin(object):
                 'id': self.short_name,
                 'type': 'node_addons',
                 'attributes': {
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=True)
         if not wrong_type:
@@ -408,8 +407,8 @@ class NodeAddonDetailMixin(object):
                 'attributes': {
                     'external_account_id': None,
                     'folder_id': None,
-                    }
                 }
+            }
             }, auth=noncontrib.auth,
             expect_errors=True)
         assert_equal(res.status_code, 403)
@@ -422,8 +421,8 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': None
-                    }
                 }
+            }
             }, auth=noncontrib.auth,
             expect_errors=True)
         assert_equal(res.status_code, 403)
@@ -455,8 +454,8 @@ class NodeAddonDetailMixin(object):
                 'type': 'node_addons',
                 'attributes': {
                     'external_account_id': None
-                    }
                 }
+            }
             }, auth=noncontrib.auth,
             expect_errors=True)
         assert_equal(res.status_code, 403)
@@ -484,12 +483,11 @@ class NodeAddonFolderMixin(object):
         if wrong_type:
             assert_in(res.status_code, [404, 501])
 
-
     def test_folder_list_raises_error_if_PUT(self):
         res = self.app.put_json_api(self.folder_url, {
             'id': self.short_name,
             'type': 'node-addon-folders'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -497,7 +495,7 @@ class NodeAddonFolderMixin(object):
         res = self.app.patch_json_api(self.folder_url, {
             'id': self.short_name,
             'type': 'node-addon-folders'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -599,7 +597,6 @@ class NodeOAuthCitationAddonTestSuiteMixin(NodeOAuthAddonTestSuiteMixin):
             super(NodeOAuthCitationAddonTestSuiteMixin, self).test_settings_detail_GET_enabled
 
 
-
 class NodeUnmanageableAddonTestSuiteMixin(NodeAddonTestSuiteMixin):
     addon_type = 'UNMANAGEABLE'
 
@@ -688,7 +685,6 @@ class TestNodeFigshareAddon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTestCas
             'addon': 'figshare',
         }
 
-
     @mock.patch('addons.figshare.client.FigshareClient.get_folders')
     def test_folder_list_GET_expected_behavior(self, mock_folders):
         mock_folders.return_value = [self._mock_folder_result]
@@ -765,7 +761,6 @@ class TestNodeOwnCloudAddon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTestCas
         }
 
 
-
 class TestNodeS3Addon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTestCase):
     short_name = 's3'
     AccountFactory = S3AccountFactory
@@ -838,9 +833,9 @@ class TestNodeGoogleDriveAddon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTest
                 'type': 'node_addons',
                 'attributes': {
                     'folder_id': self._mock_folder_info['folder_id']
-                    }
                 }
-            }
+                }
+                }
         res_put = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth, expect_errors=True)
         res_patch = self.app.patch_json_api(self.setting_detail_url,
@@ -858,9 +853,9 @@ class TestNodeGoogleDriveAddon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTest
                 'type': 'node_addons',
                 'attributes': {
                     'folder_path': self._mock_folder_info['folder_path']
-                    }
                 }
-            }
+                }
+                }
         res_put = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth, expect_errors=True)
         res_patch = self.app.patch_json_api(self.setting_detail_url,
@@ -879,9 +874,9 @@ class TestNodeGoogleDriveAddon(NodeConfigurableAddonTestSuiteMixin, ApiAddonTest
                 'attributes': {
                     'external_account_id': self.account_id,
                     'folder_id': self._mock_folder_info['folder_id']
-                    }
                 }
-            }
+                }
+                }
         res = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth,
             expect_errors=True)
@@ -910,7 +905,6 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
 
     ## Overrides
 
-
     def test_folder_list_GET_raises_error_admin_not_authorizer(self):
         wrong_type = self.should_expect_errors()
         admin_user = AuthUserFactory()
@@ -936,8 +930,8 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
                 'id': self.short_name,
                 'type': 'node_addons',
                 'attributes': {
-                    }
                 }
+            }
             },
             auth=self.user.auth)
 
@@ -1003,7 +997,7 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
                 'type': 'node_addons',
                 'attributes': {}
                 }
-            }
+                }
         data['data']['attributes'].update(self._mock_folder_info)
         res = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth)
@@ -1022,8 +1016,8 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
                 'attributes': {
                     'url': None,
                     'label': None
-                    }
                 }
+            }
             }, auth=self.user.auth)
         addon_data = res.json['data']['attributes']
         assert_false(addon_data['url'])
@@ -1039,8 +1033,8 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
                 'attributes': {
                     'url': None,
                     'label': 'A Link'
-                    }
                 }
+            }
             }, auth=self.user.auth,
             expect_errors=True)
 
@@ -1055,8 +1049,8 @@ class TestNodeForwardAddon(NodeUnmanageableAddonTestSuiteMixin, ApiAddonTestCase
                 'attributes': {
                     'url': self._mock_folder_info['url']
                 }
-            }
-        }
+                }
+                }
         res = self.app.put_json_api(self.setting_detail_url,
             data, auth=self.user.auth)
         addon_data = res.json['data']['attributes']

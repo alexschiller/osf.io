@@ -1,4 +1,5 @@
-import hashlib, binascii
+import hashlib
+import binascii
 from nose.tools import *  # flake8: noqa
 
 from modularodm import Q
@@ -284,7 +285,6 @@ class TestDraftRegistrationUpdate(DraftRegistrationTestCase):
 
         url = '/{}nodes/{}/draft_registrations/{}/'.format(API_BASE, self.public_project._id, self.prereg_draft_registration._id)
 
-
         res = self.app.put_json_api(url, payload, auth=user.auth, expect_errors=True)
         assert_equal(res.status_code, 200)
         assert_equal(res.json['data']['attributes']['registration_metadata']['q2']['comments'][0]['value'], 'This is incomplete.')
@@ -328,7 +328,7 @@ class TestDraftRegistrationUpdate(DraftRegistrationTestCase):
                     "registration_metadata": {
                         'q7': {
                             'value': {
-                                 'question': {
+                                'question': {
                                     'comments': [{'value': 'Add some clarity here.'}]
                                 }
                             }
@@ -357,7 +357,7 @@ class TestDraftRegistrationUpdate(DraftRegistrationTestCase):
                     "registration_metadata": {
                         'q7': {
                             'value': {
-                                 'question': {
+                                'question': {
                                     'value': 'This is the answer'
                                 }
                             }
@@ -425,7 +425,6 @@ class TestDraftRegistrationPatch(DraftRegistrationTestCase):
                 }
             }
         }
-
 
     def test_admin_can_update_draft(self):
         res = self.app.patch_json_api(self.url, self.payload, auth=self.user.auth)

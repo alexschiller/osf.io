@@ -88,7 +88,7 @@ class TestNodeRelationshipNodeLinks:
 
     def test_node_relationship_node_links(self, app, user, url, public_url, linking_node, private_node, admin_node, public_node, contributor_node, other_node, payload):
 
-    #   get_relationship_linked_nodes
+        #   get_relationship_linked_nodes
         res = app.get(url, auth=user.auth)
 
         assert res.status_code == 200
@@ -291,40 +291,40 @@ class TestNodeRelationshipNodeLinks:
 
     #   creates_public_linked_node_relationship_logged_out
         res = app.post_json_api(
-                public_url, payload([public_node._id]),
-                expect_errors=True
+            public_url, payload([public_node._id]),
+            expect_errors=True
         )
 
         assert res.status_code == 401
 
     #   creates_public_linked_node_relationship_logged_in
         res = app.post_json_api(
-                public_url, payload([public_node._id]),
-                auth=user.auth, expect_errors=True
+            public_url, payload([public_node._id]),
+            auth=user.auth, expect_errors=True
         )
 
         assert res.status_code == 405
 
     #   creates_private_linked_node_relationship_logged_out
         res = app.post_json_api(
-                url, payload([other_node._id]),
-                expect_errors=True
+            url, payload([other_node._id]),
+            expect_errors=True
         )
 
         assert res.status_code == 401
 
     #   put_public_nodes_relationships_logged_out
         res = app.put_json_api(
-                public_url, payload([public_node._id]),
-                expect_errors=True
+            public_url, payload([public_node._id]),
+            expect_errors=True
         )
 
         assert res.status_code == 401
 
     #   put_public_nodes_relationships_logged_in
         res = app.put_json_api(
-                public_url, payload([private_node._id]),
-                auth=user.auth, expect_errors=True
+            public_url, payload([private_node._id]),
+            auth=user.auth, expect_errors=True
         )
 
         assert res.status_code == 405
@@ -339,8 +339,8 @@ class TestNodeRelationshipNodeLinks:
 
     #   delete_public_nodes_relationships_logged_in
         res = app.delete_json_api(
-                public_url, payload([private_node._id]),
-                auth=user.auth, expect_errors=True
+            public_url, payload([private_node._id]),
+            auth=user.auth, expect_errors=True
         )
 
         assert res.status_code == 405

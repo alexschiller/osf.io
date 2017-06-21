@@ -125,9 +125,9 @@ class TestPreprintCreate(ApiTestCase):
 
     def test_create_preprint_from_private_project(self):
         private_project_payload = build_preprint_create_payload(self.private_project._id, self.provider._id, self.file_one_private_project._id, attrs={
-                'subjects': [[SubjectFactory()._id]],
-                'is_published': True
-            })
+            'subjects': [[SubjectFactory()._id]],
+            'is_published': True
+        })
         res = self.app.post_json_api(self.url, private_project_payload, auth=self.user.auth)
 
         self.private_project.reload()
@@ -262,18 +262,18 @@ class TestPreprintCreate(ApiTestCase):
     @mock.patch('website.preprints.tasks.on_preprint_updated.s')
     def test_create_preprint_from_project_published_hits_update(self, mock_on_preprint_updated):
         private_project_payload = build_preprint_create_payload(self.private_project._id, self.provider._id, self.file_one_private_project._id, attrs={
-                'subjects': [[SubjectFactory()._id]],
-                'is_published': True
-            })
+            'subjects': [[SubjectFactory()._id]],
+            'is_published': True
+        })
         res = self.app.post_json_api(self.url, private_project_payload, auth=self.user.auth)
         assert mock_on_preprint_updated.called
 
     @mock.patch('website.preprints.tasks.on_preprint_updated.s')
     def test_create_preprint_from_project_unpublished_does_not_hit_update(self, mock_on_preprint_updated):
         private_project_payload = build_preprint_create_payload(self.private_project._id, self.provider._id, self.file_one_private_project._id, attrs={
-                'subjects': [[SubjectFactory()._id]],
-                'is_published': False
-            })
+            'subjects': [[SubjectFactory()._id]],
+            'is_published': False
+        })
         res = self.app.post_json_api(self.url, private_project_payload, auth=self.user.auth)
         assert not mock_on_preprint_updated.called
 

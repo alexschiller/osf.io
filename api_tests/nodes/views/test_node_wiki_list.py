@@ -160,7 +160,7 @@ class TestNodeWikiList(ApiWikiTestCase):
         node_relationships = [
             node_wiki['relationships']['node']['links']['related']['href']
             for node_wiki in res.json['data']
-            ]
+        ]
         assert_equal(res.status_code, 200)
         assert_equal(len(node_relationships), 1)
         assert_in(self.public_registration._id, node_relationships[0])

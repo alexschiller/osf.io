@@ -30,9 +30,9 @@ class NodesListFilteringMixin(object):
         self.node_A.add_contributor(self.user_two, save=True)
 
         self.parent_url = '{}filter[parent]='.format(self.url)
-        self.root_url ='{}filter[root]='.format(self.url)
-        self.tags_url ='{}filter[tags]='.format(self.url)
-        self.contributors_url ='{}filter[contributors]='.format(self.url)
+        self.root_url = '{}filter[root]='.format(self.url)
+        self.tags_url = '{}filter[tags]='.format(self.url)
+        self.contributors_url = '{}filter[contributors]='.format(self.url)
 
     def test_parent_filter_null(self):
         expected = [self.node_A._id]

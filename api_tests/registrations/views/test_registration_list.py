@@ -92,7 +92,6 @@ class TestRegistrationFiltering(ApiTestCase):
         self.project_two = ProjectFactory(title="Project Two", description="One Three", is_public=True, creator=self.user_one)
         self.project_three = ProjectFactory(title="Three", is_public=True, creator=self.user_two)
 
-
         self.private_project_user_one = ProjectFactory(title="Private Project User One",
                                                        is_public=False,
                                                        creator=self.user_one)
@@ -469,7 +468,7 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
             initiator=self.user,
             registration_schema=self.schema,
             branched_from=self.public_project,
-            registration_metadata = {
+            registration_metadata={
                 'item29': {'value': 'Yes'},
                 'item33': {'value': 'success'}
             }
@@ -483,8 +482,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "immediate"
-                    }
                 }
+            }
         }
 
     @mock.patch('framework.celery_tasks.handlers.enqueue_task')
@@ -515,8 +514,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "type": "registrations",
                 "attributes": {
                     "registration_choice": "immediate"
-                    }
                 }
+            }
         }
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
@@ -531,8 +530,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": "12345"
-                    }
                 }
+            }
         }
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 404)
@@ -544,7 +543,7 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
             initiator=self.user,
             registration_schema=self.schema,
             branched_from=new_project,
-            registration_metadata = {
+            registration_metadata={
                 'item29': {'value': 'Yes'},
                 'item33': {'value': 'success'}
             }
@@ -555,8 +554,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": draft_registration._id
-                    }
                 }
+            }
         }
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
@@ -586,8 +585,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": prereg_draft_registration._id,
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -618,8 +617,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": prereg_draft_registration._id,
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -650,8 +649,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": prereg_draft_registration._id,
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -683,8 +682,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "registration_choice": "immediate",
                     "draft_registration": prereg_draft_registration._id,
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -697,7 +696,7 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
             initiator=self.user,
             registration_schema=self.schema,
             branched_from=self.public_project,
-            registration_metadata = {
+            registration_metadata={
                 'item29': {'value': 'Yes'},
                 'item33': {'value': 'success!'}
             }
@@ -715,8 +714,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "tomorrow"
-                    }
                 }
+            }
         }
         res = self.app.post_json_api(self.url, self.payload, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 400)
@@ -731,8 +730,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                 "attributes": {
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "embargo"
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -750,8 +749,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "embargo",
                     "lift_embargo": five_years
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -769,8 +768,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "embargo",
                     "lift_embargo": next_week
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -788,8 +787,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "embargo",
                     "lift_embargo": today
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)
@@ -805,8 +804,8 @@ class TestRegistrationCreate(DraftRegistrationTestCase):
                     "draft_registration": self.draft_registration._id,
                     "registration_choice": "embargo",
                     "lift_embargo": today
-                    }
                 }
+            }
         }
 
         res = self.app.post_json_api(self.url, payload, auth=self.user.auth, expect_errors=True)

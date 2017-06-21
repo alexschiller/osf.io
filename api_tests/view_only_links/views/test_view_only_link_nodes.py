@@ -273,7 +273,6 @@ class TestViewOnlyLinkNodesUpdate(TestViewOnlyLinkNodesSet):
         assert_not_in(self.component_one, self.view_only_link.nodes.all())
         assert_not_in(self.component_two, self.view_only_link.nodes.all())
 
-
     def test_admin_can_update_nodes_single_add_single_remove(self):
         self.view_only_link.nodes.add(self.component_two)
         self.view_only_link.save()
@@ -284,7 +283,6 @@ class TestViewOnlyLinkNodesUpdate(TestViewOnlyLinkNodesSet):
         assert_in(self.public_project, self.view_only_link.nodes.all())
         assert_in(self.component_one, self.view_only_link.nodes.all())
         assert_not_in(self.component_two, self.view_only_link.nodes.all())
-
 
     def test_admin_can_update_nodes_multiple_add_multiple_remove(self):
         self.view_only_link.nodes.add(self.component_one)

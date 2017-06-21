@@ -431,7 +431,7 @@ class TestUserUpdate(ApiTestCase):
                 'id': self.user_one._id,
                 'type': 'users',
                 'attributes': {
-                'family_name': self.new_user_one_data['data']['attributes']['family_name'],
+                    'family_name': self.new_user_one_data['data']['attributes']['family_name'],
                 }
             }
         }, auth=self.user_one.auth)
@@ -447,7 +447,7 @@ class TestUserUpdate(ApiTestCase):
                 'id': self.user_one._id,
                 'type': 'users',
                 'attributes': {
-                'family_name': self.new_user_one_data['data']['attributes']['family_name'],
+                    'family_name': self.new_user_one_data['data']['attributes']['family_name'],
                 }
             }
         }, auth=self.user_one.auth, expect_errors=True)
@@ -467,7 +467,7 @@ class TestUserUpdate(ApiTestCase):
                     }
                 },
 
-        }}, auth=self.user_one.auth)
+            }}, auth=self.user_one.auth)
         self.user_one.reload()
         assert_equal(res.status_code, 200)
         assert_equal(res.json['data']['attributes']['full_name'], 'new_fullname')

@@ -538,8 +538,8 @@ class TestNodeUpdate(NodeCRUDTestCase):
         new_title = 'An <script>alert("even cooler")</script> project'
         res = self.app.patch_json_api(self.public_url, {
             'data': {
-            'id': self.public_project._id,
-            'type': 'nodes',
+                'id': self.public_project._id,
+                'type': 'nodes',
                 'attributes': {
                     'title': new_title
                 }
@@ -588,7 +588,7 @@ class TestNodeUpdate(NodeCRUDTestCase):
                 'id': self.public_project._id,
                 'type': 'nodes',
                 'attributes': {
-                'title': self.new_title,
+                    'title': self.new_title,
                 }
             }
         }, auth=self.user.auth)
@@ -648,7 +648,7 @@ class TestNodeUpdate(NodeCRUDTestCase):
                 'id': self.private_project._id,
                 'type': 'nodes',
             }
-        }, auth=self.user_two.auth,expect_errors=True)
+        }, auth=self.user_two.auth, expect_errors=True)
         assert_equal(res.status_code, 403)
         assert_in('detail', res.json['errors'][0])
 
@@ -672,13 +672,13 @@ class TestNodeUpdate(NodeCRUDTestCase):
 
     def test_partial_update_invalid_id(self):
         res = self.app.patch_json_api(self.public_url, {
-                'data': {
-                    'id': '12345',
-                    'type': 'nodes',
-                    'attributes': {
+            'data': {
+                'id': '12345',
+                'type': 'nodes',
+                'attributes': {
                         'title': self.new_title,
-                    }
                 }
+            }
         }, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 409)
 
@@ -1041,12 +1041,12 @@ class TestNodeTags(ApiTestCase):
         assert_equal(len(res.json['data']['attributes']['tags']), 1)
         assert_equal(res.json['data']['attributes']['tags'][0], 'new-tag')
         # Ensure removing and adding tag data is correct from the PATCH response
-        res = self.app.patch_json_api(self.private_url, {'data': {'id': self.private_project._id, 'type':'nodes', 'attributes': {'tags':['newer-tag']}}}, auth=self.user.auth)
+        res = self.app.patch_json_api(self.private_url, {'data': {'id': self.private_project._id, 'type': 'nodes', 'attributes': {'tags': ['newer-tag']}}}, auth=self.user.auth)
         assert_equal(res.status_code, 200)
         assert_equal(len(res.json['data']['attributes']['tags']), 1)
         assert_equal(res.json['data']['attributes']['tags'][0], 'newer-tag')
         # Ensure removing tag data is correct from the PATCH response
-        res = self.app.patch_json_api(self.private_url, {'data': {'id': self.private_project._id, 'type':'nodes', 'attributes': {'tags': []}}}, auth=self.user.auth)
+        res = self.app.patch_json_api(self.private_url, {'data': {'id': self.private_project._id, 'type': 'nodes', 'attributes': {'tags': []}}}, auth=self.user.auth)
         assert_equal(res.status_code, 200)
         assert_equal(len(res.json['data']['attributes']['tags']), 0)
 

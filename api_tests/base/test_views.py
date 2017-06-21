@@ -43,7 +43,7 @@ class TestApiBaseViews(ApiTestCase):
         assert_equal(res.status_code, 200)
 
     def test_does_not_exist_returns_404(self):
-        res = self.app.get('/{}{}'.format(API_BASE,"notapage"), expect_errors=True)
+        res = self.app.get('/{}{}'.format(API_BASE, "notapage"), expect_errors=True)
         assert_equal(res.status_code, 404)
 
     def test_does_not_exist_formatting(self):

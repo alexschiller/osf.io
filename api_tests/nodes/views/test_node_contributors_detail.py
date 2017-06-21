@@ -453,7 +453,6 @@ class TestNodeContributorUpdate(ApiTestCase):
         res = self.app.put_json_api(self.url_contributor, data, auth=self.user.auth, expect_errors=True)
         assert_equal(res.status_code, 409)
 
-
     @assert_logs(NodeLog.PERMISSIONS_UPDATED, 'project', -3)
     @assert_logs(NodeLog.PERMISSIONS_UPDATED, 'project', -2)
     @assert_logs(NodeLog.PERMISSIONS_UPDATED, 'project')

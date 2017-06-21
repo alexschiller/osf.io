@@ -34,7 +34,7 @@ from api.base.serializers import RelationshipField
 
 class FakeSerializer(ser.Serializer):
 
-    filterable_fields = ('id', 'string_field', 'second_string_field','list_field', 'date_field', 'int_field', 'bool_field', 'relationship_field')
+    filterable_fields = ('id', 'string_field', 'second_string_field', 'list_field', 'date_field', 'int_field', 'bool_field', 'relationship_field')
 
     id = ser.CharField()
     string_field = ser.CharField()
@@ -137,8 +137,8 @@ class TestFilterMixin(ApiTestCase):
         fields = self.view.parse_query_params(query_params)
         parsed_field = fields['filter[bool_field]']['bool_field']
         assert_equal(parsed_field['source_field_name'], 'foobar')
-        assert_equal(parsed_field ['value'], False)
-        assert_equal(parsed_field ['op'], 'eq')
+        assert_equal(parsed_field['value'], False)
+        assert_equal(parsed_field['op'], 'eq')
 
     def test_parse_query_params_generalizes_dates(self):
         query_params = {
@@ -232,7 +232,6 @@ class TestFilterMixin(ApiTestCase):
             ops = re.search(r'one of (?P<ops>.+)\.$', err.detail).groupdict()['ops']
             assert_equal(ops, "contains, icontains, eq, ne")
 
-
     def test_parse_query_params_supports_multiple_filters(self):
         query_params = {
             'filter[string_field]': 'foo',
@@ -290,7 +289,7 @@ class TestFilterMixin(ApiTestCase):
                     'value': 'foobar',
                     'op': 'icontains'
                 },
-                'second_string_field' : {
+                'second_string_field': {
                     'source_field_name': 'second_string_field',
                     'value': 'foobar',
                     'op': 'icontains'
@@ -323,7 +322,7 @@ class TestFilterMixin(ApiTestCase):
                     }
                 },
                 'filter[string_field, second_string_field]': {
-                    'second_string_field' : {
+                    'second_string_field': {
                         'source_field_name': 'second_string_field',
                         'value': 'foobar',
                         'op': 'icontains'
@@ -365,7 +364,7 @@ class TestFilterMixin(ApiTestCase):
                     }
                 },
                 'filter[string_field, second_string_field]': {
-                    'second_string_field' : {
+                    'second_string_field': {
                         'source_field_name': 'second_string_field',
                         'value': 'foobar',
                         'op': 'icontains'
@@ -485,8 +484,8 @@ class TestListFilterMixin(ApiTestCase):
         fields = self.view.parse_query_params(query_params)
         parsed_field = fields['filter[bool_field]']['bool_field']
         assert_equal(parsed_field['source_field_name'], 'foobar')
-        assert_equal(parsed_field ['value'], False)
-        assert_equal(parsed_field ['op'], 'eq')
+        assert_equal(parsed_field['value'], False)
+        assert_equal(parsed_field['op'], 'eq')
 
 
 class TestODMOrderingFilter(ApiTestCase):
@@ -506,20 +505,17 @@ class TestODMOrderingFilter(ApiTestCase):
         def __str__(self):
             return self.title
 
-
     def test_filter_queryset_forward(self):
         query_to_be_sorted = [self.query(x) for x in 'NewProj Zip Proj Activity'.split()]
         sorted_query = sorted(query_to_be_sorted, cmp=filters.sort_multiple(['title']))
         sorted_output = [str(i) for i in sorted_query]
         assert_equal(sorted_output, ['Activity', 'NewProj', 'Proj', 'Zip'])
 
-
     def test_filter_queryset_forward_duplicate(self):
         query_to_be_sorted = [self.query(x) for x in 'NewProj Activity Zip Activity'.split()]
         sorted_query = sorted(query_to_be_sorted, cmp=filters.sort_multiple(['title']))
         sorted_output = [str(i) for i in sorted_query]
         assert_equal(sorted_output, ['Activity', 'Activity', 'NewProj', 'Zip'])
-
 
     def test_filter_queryset_reverse(self):
         query_to_be_sorted = [self.query(x) for x in 'NewProj Zip Proj Activity'.split()]

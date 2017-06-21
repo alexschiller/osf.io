@@ -115,7 +115,7 @@ class TestNodeRegistrationSerializer(DbTestCase):
         relationships = data['relationships']
         relationship_urls = {}
         for relationship in relationships:
-            relationship_urls[relationship]=relationships[relationship]['links']['related']['href']
+            relationship_urls[relationship] = relationships[relationship]['links']['related']['href']
         assert_in('registered_by', relationships)
         registered_by = relationships['registered_by']['links']['related']['href']
         assert_equal(

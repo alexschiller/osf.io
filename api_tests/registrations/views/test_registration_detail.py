@@ -214,7 +214,7 @@ class TestRegistrationUpdate:
 
     def test_fields(self, app, user, public_registration, private_registration, public_url, private_url, make_payload):
 
-    #   test_public_field_has_invalid_value
+        #   test_public_field_has_invalid_value
         invalid_public_payload = make_payload(id=public_registration._id, attributes={'public': 'Dr.Strange'})
 
         res = app.put_json_api(public_url, invalid_public_payload, auth=user.auth, expect_errors=True)
@@ -262,14 +262,14 @@ class TestRegistrationUpdate:
         assert private_registration.is_public
 
     def test_registration_fields_are_read_only(self):
-        writeable_fields = ['type', 'public', 'draft_registration', 'registration_choice', 'lift_embargo' ]
+        writeable_fields = ['type', 'public', 'draft_registration', 'registration_choice', 'lift_embargo']
         for field in RegistrationSerializer._declared_fields:
             reg_field = RegistrationSerializer._declared_fields[field]
             if field not in writeable_fields:
                 assert getattr(reg_field, 'read_only', False) is True
 
     def test_registration_detail_fields_are_read_only(self):
-        writeable_fields = ['type', 'public', 'draft_registration', 'registration_choice', 'lift_embargo' ]
+        writeable_fields = ['type', 'public', 'draft_registration', 'registration_choice', 'lift_embargo']
 
         for field in RegistrationDetailSerializer._declared_fields:
             reg_field = RegistrationSerializer._declared_fields[field]

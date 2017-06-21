@@ -18,7 +18,7 @@ def payload(name=None, text=None):
     data = {'data': {
         'type': 'citations',
         'attributes': {}
-        }
+    }
     }
     if name is not None:
         data['data']['attributes']['name'] = name

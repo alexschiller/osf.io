@@ -150,4 +150,3 @@ class TestWithdrawnRegistrations(NodeCRUDTestCase):
         res = self.app.get(url, auth=self.user.auth)
         assert_equal(res.status_code, 200)
         assert_equal(res.json['data']['relationships']['contributors']['links']['related']['meta']['count'], 1)
-

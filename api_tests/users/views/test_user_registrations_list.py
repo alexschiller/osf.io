@@ -46,11 +46,11 @@ class TestUserRegistrations(ApiTestCase):
 
         self.reg_public_project_user_one = RegistrationFactory(project=self.public_project_user_one,
                                                       creator=self.user_one, is_public=True)
-        self.reg_private_project_user_one = RegistrationFactory(project = self.private_project_user_one,
+        self.reg_private_project_user_one = RegistrationFactory(project=self.private_project_user_one,
                                                        creator=self.user_one, is_private=True)
-        self.reg_public_project_user_two = RegistrationFactory(project = self.public_project_user_two,
+        self.reg_public_project_user_two = RegistrationFactory(project=self.public_project_user_two,
                                                       creator=self.user_two, is_public=True)
-        self.reg_private_project_user_two = RegistrationFactory(project = self.private_project_user_two,
+        self.reg_private_project_user_two = RegistrationFactory(project=self.private_project_user_two,
                                                        creator=self.user_two, is_private=True)
 
     def tearDown(self):

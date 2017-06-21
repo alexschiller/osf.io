@@ -42,7 +42,7 @@ class TestThrottling(ApiTestCase):
         assert_equal(mock_allow.call_count, 1)
 
     def test_user_rate_throttle_with_throttle_token(self):
-        headers = { 'X-THROTTLE-TOKEN': 'test-token'}
+        headers = {'X-THROTTLE-TOKEN': 'test-token'}
         res = self.app.get(self.url, auth=self.user.auth, headers=headers)
         assert_equal(res.status_code, 200)
         res = self.app.get(self.url, auth=self.user.auth, headers=headers)

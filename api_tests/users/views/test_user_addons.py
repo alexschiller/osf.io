@@ -58,7 +58,7 @@ class UserAddonListMixin(object):
         res = self.app.put_json_api(self.setting_list_url, {
             'id': self.short_name,
             'type': 'user-addons'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -66,7 +66,7 @@ class UserAddonListMixin(object):
         res = self.app.patch_json_api(self.setting_list_url, {
             'id': self.short_name,
             'type': 'user-addons'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -137,7 +137,7 @@ class UserAddonDetailMixin(object):
         res = self.app.put_json_api(self.setting_detail_url, {
             'id': self.short_name,
             'type': 'user-addon-detail'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -145,7 +145,7 @@ class UserAddonDetailMixin(object):
         res = self.app.patch_json_api(self.setting_detail_url, {
             'id': self.short_name,
             'type': 'user-addon-detail'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -218,7 +218,7 @@ class UserAddonAccountListMixin(object):
         res = self.app.put_json_api(self.account_list_url, {
             'id': self.short_name,
             'type': 'user-external_accounts'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -226,7 +226,7 @@ class UserAddonAccountListMixin(object):
         res = self.app.patch_json_api(self.account_list_url, {
             'id': self.short_name,
             'type': 'user-external_accounts'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -299,7 +299,7 @@ class UserAddonAccountDetailMixin(object):
         res = self.app.put_json_api(self.account_detail_url, {
             'id': self.short_name,
             'type': 'user-external_account-detail'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 
@@ -307,7 +307,7 @@ class UserAddonAccountDetailMixin(object):
         res = self.app.patch_json_api(self.account_detail_url, {
             'id': self.short_name,
             'type': 'user-external_account-detail'
-            }, auth=self.user.auth,
+        }, auth=self.user.auth,
             expect_errors=True)
         assert_equal(res.status_code, 405)
 

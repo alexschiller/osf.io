@@ -103,7 +103,7 @@ class CommentDetailMixin(object):
         res = self.app.get('/{}comments/{}/'.format(API_BASE, self.comment._id), {'view_only': private_link.key})
         assert_equal(res.status_code, 200)
         assert_equal(self.comment._id, res.json['data']['id'])
-        assert_equal( 'test with @A User and @mention', res.json['data']['attributes']['content'])
+        assert_equal('test with @A User and @mention', res.json['data']['attributes']['content'])
 
     def test_public_node_logged_in_contributor_can_view_comment(self):
         self._set_up_public_project_with_comment()

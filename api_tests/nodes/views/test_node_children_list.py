@@ -249,9 +249,9 @@ class TestNodeChildCreate(ApiTestCase):
         child = {
             'data': {
                 'attributes': {
-                'title': 'child',
-                'description': 'this is a child project',
-                'category': 'project',
+                    'title': 'child',
+                    'description': 'this is a child project',
+                    'category': 'project',
                 }
             }
         }
@@ -301,20 +301,20 @@ class TestNodeChildrenBulkCreate(ApiTestCase):
 
         self.url = '/{}nodes/{}/children/'.format(API_BASE, self.project._id)
         self.child = {
-                'type': 'nodes',
-                'attributes': {
+            'type': 'nodes',
+            'attributes': {
                     'title': 'child',
                     'description': 'this is a child project',
                     'category': 'project'
-                }
+            }
         }
         self.child_two = {
-                'type': 'nodes',
-                'attributes': {
+            'type': 'nodes',
+            'attributes': {
                     'title': 'second child',
                     'description': 'this is my hypothesis',
                     'category': 'hypothesis'
-                }
+            }
         }
 
     def test_bulk_children_create_blank_request(self):
@@ -352,7 +352,6 @@ class TestNodeChildrenBulkCreate(ApiTestCase):
 
         assert_equal(nodes[0].logs.latest().action, NodeLog.PROJECT_CREATED)
         assert_equal(nodes[1].logs.latest().action, NodeLog.PROJECT_CREATED)
-
 
     def test_bulk_creates_children_child_logged_in_write_contributor(self):
         self.project.add_contributor(self.user_two, permissions=[permissions.READ, permissions.WRITE], auth=Auth(self.user), save=True)
@@ -445,9 +444,9 @@ class TestNodeChildrenBulkCreate(ApiTestCase):
         child = {
             'data': [self.child_two, {
                 'attributes': {
-                'title': 'child',
-                'description': 'this is a child project',
-                'category': 'project',
+                    'title': 'child',
+                    'description': 'this is a child project',
+                    'category': 'project',
                 }
             }]
         }
@@ -492,4 +491,3 @@ class TestNodeChildrenBulkCreate(ApiTestCase):
 
         self.project.reload()
         assert_equal(len(self.project.nodes), 0)
-

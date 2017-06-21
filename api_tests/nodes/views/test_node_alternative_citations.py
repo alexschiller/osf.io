@@ -18,7 +18,7 @@ def payload(name=None, text=None, _id=None):
     data = {'data': {
         'type': 'citations',
         'attributes': {}
-        }
+    }
     }
     if name is not None:
         data['data']['attributes']['name'] = name
@@ -1696,11 +1696,11 @@ class TestManualCitationCorrections(ApiTestCase):
         csl = self.project.csl
         citation = citation_utils.render_citation(self.project, 'modern-language-association')
         expected_citation = csl['author'][0]['family'] + ', ' + csl['author'][0]['given'] + '. ' + u"\u201c" + csl['title'] + u"\u201d" + '. ' +\
-                            csl['publisher'] + ', ' + (self.project.date_created.strftime("%-d %b. %Y. Web.") if self.project.date_created.month not in [5,6,7] else self.project.date_created.strftime("%-d %B %Y. Web."))
+                            csl['publisher'] + ', ' + (self.project.date_created.strftime("%-d %b. %Y. Web.") if self.project.date_created.month not in [5, 6, 7] else self.project.date_created.strftime("%-d %B %Y. Web."))
         assert_equal(citation, expected_citation)
 
     def test_chicago_citation(self):
         csl = self.project.csl
         citation = citation_utils.render_citation(self.project, 'chicago-author-date')
-        expected_citation = csl['author'][0]['family'] + ', ' + csl['author'][0]['given'] + '. ' + str(csl['issued']['date-parts'][0][0]) + '. ' + u"\u201c" + csl['title'] + u"\u201d" + '. ' +  csl['publisher'] +'. ' + self.project.date_created.strftime("%B %-d") + '. ' + csl['URL'] + '.'
+        expected_citation = csl['author'][0]['family'] + ', ' + csl['author'][0]['given'] + '. ' + str(csl['issued']['date-parts'][0][0]) + '. ' + u"\u201c" + csl['title'] + u"\u201d" + '. ' + csl['publisher'] + '. ' + self.project.date_created.strftime("%B %-d") + '. ' + csl['URL'] + '.'
         assert_equal(citation, expected_citation)

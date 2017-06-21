@@ -271,40 +271,40 @@ class TestNodeRelationshipNodeLinks(ApiTestCase):
 
     def test_creates_public_linked_node_relationship_logged_out(self):
         res = self.app.post_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_creates_public_linked_node_relationship_logged_in(self):
         res = self.app.post_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)
 
     def test_creates_private_linked_node_relationship_logged_out(self):
         res = self.app.post_json_api(
-                self.url, self.payload([self.other_node._id]),
-                expect_errors=True
+            self.url, self.payload([self.other_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_put_public_nodes_relationships_logged_out(self):
         res = self.app.put_json_api(
-                self.public_url, self.payload([self.public_node._id]),
-                expect_errors=True
+            self.public_url, self.payload([self.public_node._id]),
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 401)
 
     def test_put_public_nodes_relationships_logged_in(self):
         res = self.app.put_json_api(
-                self.public_url, self.payload([self.private_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.private_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)
@@ -319,8 +319,8 @@ class TestNodeRelationshipNodeLinks(ApiTestCase):
 
     def test_delete_public_nodes_relationships_logged_in(self):
         res = self.app.delete_json_api(
-                self.public_url, self.payload([self.private_node._id]),
-                auth=self.user.auth, expect_errors=True
+            self.public_url, self.payload([self.private_node._id]),
+            auth=self.user.auth, expect_errors=True
         )
 
         assert_equal(res.status_code, 403)

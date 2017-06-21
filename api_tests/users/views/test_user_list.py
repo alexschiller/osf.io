@@ -154,8 +154,8 @@ class TestUsers(ApiTestCase):
             assert_equal(meta['projects_in_common'], 1)
 
     def test_users_projects_in_common_exclude_deleted_projects(self):
-        project_list=[]
-        for x in range(1,10):
+        project_list = []
+        for x in range(1, 10):
             project = ProjectFactory(creator=self.user_one)
             project.add_contributor(
                 contributor=self.user_two,
@@ -164,7 +164,7 @@ class TestUsers(ApiTestCase):
             )
             project.save()
             project_list.append(project)
-        for x in range(1,5):
+        for x in range(1, 5):
             project = project_list[x]
             project.reload()
             project.remove_node(auth=Auth(user=self.user_one))

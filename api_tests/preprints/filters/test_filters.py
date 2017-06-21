@@ -136,7 +136,7 @@ class PreprintsListFilteringMixin(object):
         expected = set([self.preprint_two._id])
         res = self.app.get(self.is_published_and_modified_url,
             auth=self.user.auth
-        )
+                           )
         actual = set([preprint['id'] for preprint in res.json['data']])
         assert_equal(expected, actual)
 
@@ -144,7 +144,7 @@ class PreprintsListFilteringMixin(object):
         expected = set([self.preprint._id, self.preprint_three._id])
         res = self.app.get('{}{}'.format(self.has_subject, self.subject._id),
             auth=self.user.auth
-        )
+                           )
         actual = set([preprint['id'] for preprint in res.json['data']])
         assert_equal(expected, actual)
 
@@ -152,12 +152,12 @@ class PreprintsListFilteringMixin(object):
         expected = set([self.preprint._id, self.preprint_three._id])
         res = self.app.get('{}{}'.format(self.has_subject, self.subject.text),
             auth=self.user.auth
-        )
+                           )
         actual = set([preprint['id'] for preprint in res.json['data']])
         assert_equal(expected, actual)
 
     def test_unknows_subject_filter(self):
         res = self.app.get('{}notActuallyASubjectIdOrTestMostLikely'.format(self.has_subject),
             auth=self.user.auth
-        )
+                           )
         assert_equal(len(res.json['data']), 0)

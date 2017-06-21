@@ -26,8 +26,8 @@ class TestNodeInstitutionDetail(ApiTestCase):
     def test_return_no_institution(self):
         url = '/{0}nodes/{1}/institution/'.format(API_BASE, self.node2._id)
         res = self.app.get(
-                url, auth=self.user.auth,
-                expect_errors=True
+            url, auth=self.user.auth,
+            expect_errors=True
         )
 
         assert_equal(res.status_code, 404)
