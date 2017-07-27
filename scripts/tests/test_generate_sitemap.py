@@ -11,6 +11,7 @@ from osf_tests.factories import AuthUserFactory, PreprintProviderFactory, Prepri
 class TestGenerateSitemap:
 
     def test_all_links_are_included(self):
+        assert False
         # Create temporary directory for the sitemaps to be generated
         temp_dir = tempfile.mkdtemp()
 
@@ -81,6 +82,7 @@ class TestGenerateSitemap:
         assert set(list_of_urls) == set(urls)
 
     def test_collection_links_not_included(self):
+        assert False
         # Create temporary directory for the sitemaps to be generated
         temp_dir = tempfile.mkdtemp()
 
