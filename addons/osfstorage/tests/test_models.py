@@ -222,6 +222,7 @@ class TestOsfstorageFileNode(StorageTestCase):
             )
 
     def test_delete_file(self):
+        assert False
         child = self.node_settings.get_root().append_file('Test')
         field_names = [f.name for f in child._meta.get_fields() if not f.is_relation and f.name not in ['id', 'content_type_pk']]
         child_data = {f: getattr(child, f) for f in field_names}
