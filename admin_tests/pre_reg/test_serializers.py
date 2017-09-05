@@ -75,10 +75,10 @@ class TestGetApprovalStatus:
         return draft
 
     def test_draft_pending_approval(self, draft_pending_approval):
-        assert get_approval_status(draft_pending_approval) == 'Pending approval'
+        assert False
 
     def test_draft_approved_and_registered(self, draft_approved_and_registered):
-        assert get_approval_status(draft_approved_and_registered) == 'Approved and registered'
+        assert False
 
     def test_draft_approved_but_canceled(self, draft_approved_but_canceled):
         assert get_approval_status(draft_approved_but_canceled) == 'Approved but canceled'
