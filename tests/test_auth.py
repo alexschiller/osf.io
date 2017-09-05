@@ -82,6 +82,7 @@ class TestAuthUtils(OsfTestCase):
 
         res = self.app.get('/confirm/{}/{}'.format(user._id, token), allow_redirects=False)
         res = res.follow()
+        print 'nerds'
 
         assert_equal(res.status_code, 302)
         assert_in('login?service=', res.location)
