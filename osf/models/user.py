@@ -793,20 +793,29 @@ class OSFUser(DirtyFieldsMixin, GuidMixin, BaseModel, AbstractBaseUser, Permissi
 
     # Overrides BaseModel
     def save(self, *args, **kwargs):
+        print "## SAVE 1"
         self.update_is_active()
+        print "## SAVE 2"
         self.username = self.username.lower().strip() if self.username else None
+        print "## SAVE 3"
         dirty_fields = set(self.get_dirty_fields(check_relationship=True))
+        print "## SAVE 4"
         ret = super(OSFUser, self).save(*args, **kwargs)
+        print "## SAVE 5"
         if self.SEARCH_UPDATE_FIELDS.intersection(dirty_fields) and self.is_confirmed:
+            print "## SAVE 6"
             self.update_search()
+            print "## SAVE 7"
             self.update_search_nodes_contributors()
+            print "## SAVE 8"
         if 'fullname' in dirty_fields:
+            print "## SAVE 9"
             from osf.models.quickfiles import get_quickfiles_project_title, QuickFilesNode
-
             quickfiles = QuickFilesNode.objects.filter(creator=self).first()
             if quickfiles:
                 quickfiles.title = get_quickfiles_project_title(self)
                 quickfiles.save()
+            print "## SAVE 10"
         return ret
 
     # Legacy methods

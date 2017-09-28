@@ -4,6 +4,7 @@ from api.base.settings.defaults import API_BASE
 from osf_tests.factories import (
     AuthUserFactory,
     PreprintProviderFactory,
+    UserFactory,
 )
 
 
@@ -34,6 +35,9 @@ class TestPreprintProviderList:
         provider.save()
         return provider
 
+    def test_users(self):
+        for i in range(100):
+            UserFactory()
 
     def test_preprint_provider_list(self, app, url, user, provider_one, provider_two):
         # Test length and not auth

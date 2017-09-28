@@ -70,35 +70,55 @@ class UserFactory(DjangoModelFactory):
 
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
+        print "## 1"
         emails = kwargs.pop('emails', [])
+        print "## 2"
         instance = super(DjangoModelFactory, cls)._create(target_class, *args, **kwargs)
+        print "## 3"
         if emails and not instance.pk:
             # Save for M2M population
             instance.set_unusable_password()
+            print "## 4" 
             instance.save()
+            print "## 5"
         for email in emails:
+            print "## 6"
             instance.emails.create(address=email)
+        print "## 7"
         return instance
 
     @factory.post_generation
     def set_names(self, create, extracted):
+        print "## 8"
         parsed = impute_names_model(self.fullname)
+        print "## 9"
         for key, value in parsed.items():
+            print "## 10"
             setattr(self, key, value)
+            print "## 11"
         if create:
+            print "## 12"
             self.save()
 
     @factory.post_generation
     def set_emails(self, create, extracted):
+        print "## 13"
         if not self.emails.filter(address=self.username).exists():
+            print "## 14"
             if not self.id:
+                print "## 15"
                 if create:
+                    print "## 16"
                     # Perform implicit save to populate M2M
                     self.save()
+                    print "## 17"
                 else:
+                    print "## 18"
                     # This might lead to strange behavior
                     return
+            print "## 19"
             self.emails.create(address=str(self.username).lower())
+            print "## 20"
 
 class AuthUserFactory(UserFactory):
     """A user that automatically has an api key, for quick authentication.
