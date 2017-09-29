@@ -6,6 +6,16 @@ from osf_tests.factories import (
     PreprintProviderFactory,
     UserFactory,
 )
+from django.utils import timezone
+
+import pytest
+from bulk_update.helper import bulk_update
+
+from osf.models import OSFUser
+from django.db.models import Max, DateTimeField
+
+from osf_tests.factories import UserFactory, PreprintFactory, NodeFactory
+
 
 
 @pytest.mark.django_db
@@ -36,16 +46,13 @@ class TestPreprintProviderList:
         return provider
 
     def test_users(self):
-        for i in range(100):
-            UserFactory()
-            UserFactory()
-            UserFactory()
-            UserFactory()
-        for i in range(100):
-            UserFactory.build()
-            UserFactory.build()
-            UserFactory.build()
-            UserFactory.build()
+        objects = []
+        Factory = UserFactory
+        Model = Factory._meta.model
+        kwargs = {}
+        for _ in range(100):
+            objects.append(Factory.build(**kwargs))
+        things = Model.objects.bulk_create(objects)
         
     def test_preprint_provider_list(self, app, url, user, provider_one, provider_two):
         # Test length and not auth
