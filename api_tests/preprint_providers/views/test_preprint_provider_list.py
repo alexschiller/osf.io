@@ -36,14 +36,17 @@ class TestPreprintProviderList:
         return provider
 
     def test_users(self):
-        for i in range(50):
+        for i in range(100):
             UserFactory()
             UserFactory()
-        for i in range(50):
+            UserFactory()
+            UserFactory()
+        for i in range(100):
             UserFactory.build()
             UserFactory.build()
-        assert False
-
+            UserFactory.build()
+            UserFactory.build()
+        
     def test_preprint_provider_list(self, app, url, user, provider_one, provider_two):
         # Test length and not auth
         res = app.get(url)
