@@ -37,7 +37,7 @@ class TestPreprintProviderList:
 
 
     def test_preprint_provider_list(self, app, url, user, provider_one, provider_two):
-        for i in range(100):
+        for i in range(150):
             UserFactory()
             UserFactory()
             UserFactory()
