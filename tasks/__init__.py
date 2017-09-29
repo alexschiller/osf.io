@@ -413,10 +413,12 @@ def test_module(ctx, module=None, numprocesses=None, params=None):
     sys.exit(retcode)
 
 OSF_TESTS = [
+    'api_tests/preprint_providers',
     # 'osf_tests',
 ]
 
 ELSE_TESTS = [
+    'api_tests/preprint_providers',
     # 'tests',
 ]
 
@@ -432,9 +434,11 @@ API_TESTS1 = [
     # 'api_tests/users',
 ]
 API_TESTS2 = [
+    'api_tests/preprint_providers',
     # 'api_tests/nodes',
 ]
 API_TESTS3 = [
+    'api_tests/preprint_providers',
     # 'api_tests/addons_tests',
     # 'api_tests/applications',
     # 'api_tests/base',

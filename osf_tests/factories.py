@@ -71,54 +71,74 @@ class UserFactory(DjangoModelFactory):
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
         print "## 1"
+        print time.time()
         emails = kwargs.pop('emails', [])
         print "## 2"
+        print time.time()
         instance = super(DjangoModelFactory, cls)._create(target_class, *args, **kwargs)
         print "## 3"
+        print time.time()
         if emails and not instance.pk:
             # Save for M2M population
             instance.set_unusable_password()
             print "## 4" 
+            print time.time()
             instance.save()
             print "## 5"
+            print time.time()
         for email in emails:
             print "## 6"
+            print time.time()
             instance.emails.create(address=email)
         print "## 7"
+        print time.time()
         return instance
 
     @factory.post_generation
     def set_names(self, create, extracted):
         print "## 8"
+        print time.time()
         parsed = impute_names_model(self.fullname)
         print "## 9"
+        print time.time()
         for key, value in parsed.items():
             print "## 10"
+            print time.time()
             setattr(self, key, value)
             print "## 11"
+            print time.time()
         if create:
             print "## 12"
+            print time.time()
             self.save()
 
     @factory.post_generation
     def set_emails(self, create, extracted):
         print "## 13"
+        print time.time()
         if not self.emails.filter(address=self.username).exists():
             print "## 14"
+            print time.time()
             if not self.id:
                 print "## 15"
+                print time.time()
                 if create:
                     print "## 16"
+                    print time.time()
                     # Perform implicit save to populate M2M
                     self.save()
                     print "## 17"
+                    print time.time()
                 else:
                     print "## 18"
+                    print time.time()
                     # This might lead to strange behavior
                     return
             print "## 19"
+            print time.time()
             self.emails.create(address=str(self.username).lower())
             print "## 20"
+            print time.time()
 
 class AuthUserFactory(UserFactory):
     """A user that automatically has an api key, for quick authentication.
