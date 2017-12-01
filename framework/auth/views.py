@@ -59,10 +59,6 @@ def reset_password_get(auth, uid=None, token=None):
         }
         raise HTTPError(http.BAD_REQUEST, data=error_data)
 
-    # refresh the verification key (v2)
-    user_obj.verification_key_v2 = generate_verification_key(verification_type='password')
-    user_obj.save()
-
     return {
         'uid': user_obj._id,
         'token': user_obj.verification_key_v2['token'],
@@ -565,20 +561,56 @@ def external_login_confirm_email_get(auth, uid, token):
 
 @block_bing_preview
 @collect_auth
-def confirm_email_get(token, auth=None, **kwargs):
+def confirm_email_get(uid=None, token=None, auth=None, **kwargs):
+    """
+    View for user to land on the reset password page.
+    HTTp Method: GET
+
+    :param auth: the authentication state
+    :param uid: the user id
+    :param token: the token in verification key
+    :return
+    :raises: HTTPError(http.BAD_REQUEST) if verification key for the user is invalid, has expired or was used
+    """
+
+    # if users are logged in, log them out and redirect back to this page
+    if auth.logged_in:
+        return auth_logout(redirect_url=request.url)
+
+    # Check if request bears a valid pair of `uid` and `token`
+    user_obj = OSFUser.load(uid)
+    if not (user_obj and token in user_obj.email_verifications):
+        error_data = {
+            'message_short': 'Invalid Request.',
+            'message_long': 'The requested URL is invalid, has expired, or was already used',
+        }
+        raise HTTPError(http.BAD_REQUEST, data=error_data)
+    if user_obj.emails.count() == 1 and len(user_obj.email_verifications) == 0:
+        return {
+            'uid': user_obj._id,
+            'token': token,
+            'email': user_obj.email,
+        }
+    return confirm_email_post(uid, token, auth=None, **kwargs)
+
+@block_bing_preview
+@collect_auth
+def confirm_email_post(uid=None, token=None, auth=None, **kwargs):
     """
     View for email confirmation links. Authenticates and redirects to user settings page if confirmation is successful,
     otherwise shows an "Expired Link" error.
     HTTP Method: GET
     """
+    if not uid:
+        uid = kwargs['uid']
 
     is_merge = 'confirm_merge' in request.args
 
     try:
         if not is_merge or not check_select_for_update():
-            user = OSFUser.objects.get(guids___id=kwargs['uid'])
+            user = OSFUser.objects.get(guids___id=uid)
         else:
-            user = OSFUser.objects.filter(guids___id=kwargs['uid']).select_for_update().get()
+            user = OSFUser.objects.filter(guids___id=uid).select_for_update().get()
     except OSFUser.DoesNotExist:
         raise HTTPError(http.NOT_FOUND)
 
@@ -631,7 +663,7 @@ def confirm_email_get(token, auth=None, **kwargs):
     user.save()
     # redirect to CAS and authenticate the user with a verification key.
     return redirect(cas.get_login_url(
-        request.url,
+        settings.DOMAIN,
         username=user.username,
         verification_key=user.verification_key
     ))

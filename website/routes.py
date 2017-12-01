@@ -567,7 +567,15 @@ def make_url_map(app):
             '/confirm/<uid>/<token>/',
             'get',
             auth_views.confirm_email_get,
-            notemplate
+            OsfWebRenderer('public/confirmaccount.mako', render_mako_string, trust=False),
+        ),
+
+        # reset password get
+        Rule(
+            '/confirm/<uid>/<token>/',
+            'post',
+            auth_views.confirm_email_post,
+            OsfWebRenderer('public/confirmaccount.mako', render_mako_string, trust=False)
         ),
 
         # confirm email for login through external identity provider

@@ -54,6 +54,7 @@ var entry = {
     'profile-settings-addons-page': staticPath('js/pages/profile-settings-addons-page.js'),
     'forgotpassword-page': staticPath('js/pages/forgotpassword-page.js'),
     'resetpassword-page': staticPath('js/pages/resetpassword-page.js'),
+    'confirmaccount-page': staticPath('js/pages/confirmaccount-page.js'),
     'claimaccount-page': staticPath('js/pages/claimaccount-page.js'),
     'login-page': staticPath('js/pages/login-page.js'),
     'notifications-config-page': staticPath('js/pages/notifications-config-page.js'),
