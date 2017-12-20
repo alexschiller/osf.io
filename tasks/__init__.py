@@ -417,7 +417,11 @@ def test_module(ctx, module=None, numprocesses=None, nocapture=False, params=Non
 
 
 OSF_TESTS = [
-
+    'osf_tests/test_analytics',
+    'osf_tests/test_app',
+    'osf_tests/test_archive_target',
+    'osf_tests/test_archiver',
+    'osf_tests/test_auth_utils',
 ]
 
 ELSE_TESTS = [
@@ -443,10 +447,8 @@ API_TESTS2 = [
     'osf_tests/test_queued_mail',
     'osf_tests/test_quickfiles',
     'osf_tests/test_registrations',
-    'osf_tests/test_remind_draft_preregistrations',
-    'osf_tests/test_reviewable',
-    'osf_tests/test_sanctions',
 ]
+
 API_TESTS3 = [
     'osf_tests/test_search_views',
     'osf_tests/test_session',
@@ -456,11 +458,7 @@ API_TESTS3 = [
     'osf_tests/test_validators'
 ]
 ADDON_TESTS = [
-    'osf_tests/test_analytics',
-    'osf_tests/test_app',
-    'osf_tests/test_archive_target',
-    'osf_tests/test_archiver',
-    'osf_tests/test_auth_utils',
+
     'osf_tests/test_collection',
     'osf_tests/test_comment',
     'osf_tests/test_elastic_search',
@@ -470,7 +468,9 @@ ADDON_TESTS = [
     'osf_tests/test_files',
 ]
 ADMIN_TESTS = [
-
+    'osf_tests/test_remind_draft_preregistrations',
+    'osf_tests/test_reviewable',
+    'osf_tests/test_sanctions',
 ]
 
 
