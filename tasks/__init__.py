@@ -417,48 +417,60 @@ def test_module(ctx, module=None, numprocesses=None, nocapture=False, params=Non
 
 
 OSF_TESTS = [
-    'osf_tests',
+
 ]
 
 ELSE_TESTS = [
-    'tests',
+    'osf_tests/test_framework_utils',
+    'osf_tests/test_generate_sitemap',
+    'osf_tests/test_guid',
+    'osf_tests/test_guid_auto_include',
+    'osf_tests/test_include_queryset',
+    'osf_tests/test_institution',
+    'osf_tests/test_maintenance',
 ]
 
 API_TESTS1 = [
-    'api_tests/identifiers',
-    'api_tests/institutions',
-    'api_tests/licenses',
-    'api_tests/logs',
-    'api_tests/metaschemas',
-    'api_tests/preprint_providers',
-    'api_tests/preprints',
-    'api_tests/registrations',
-    'api_tests/users',
+    'osf_tests/test_node',
+    'osf_tests/test_node_license_record',
+    'osf_tests/test_oauth_application',
+    'osf_tests/test_preprint_summary',
+    'osf_tests/test_prereg',
+    'osf_tests/test_private_link',
 ]
 API_TESTS2 = [
-    'api_tests/nodes',
+    'osf_tests/test_project_decorators',
+    'osf_tests/test_queued_mail',
+    'osf_tests/test_quickfiles',
+    'osf_tests/test_registrations',
+    'osf_tests/test_remind_draft_preregistrations',
+    'osf_tests/test_reviewable',
+    'osf_tests/test_sanctions',
 ]
 API_TESTS3 = [
-    'api_tests/addons_tests',
-    'api_tests/applications',
-    'api_tests/base',
-    'api_tests/collections',
-    'api_tests/comments',
-    'api_tests/files',
-    'api_tests/guids',
-    'api_tests/reviews',
-    'api_tests/search',
-    'api_tests/taxonomies',
-    'api_tests/test',
-    'api_tests/tokens',
-    'api_tests/view_only_links',
-    'api_tests/wikis',
+    'osf_tests/test_search_views',
+    'osf_tests/test_session',
+    'osf_tests/test_tag',
+    'osf_tests/test_user',
+    'osf_tests/test_utils',
+    'osf_tests/test_validators'
 ]
 ADDON_TESTS = [
-    'addons',
+    'osf_tests/test_analytics',
+    'osf_tests/test_app',
+    'osf_tests/test_archive_target',
+    'osf_tests/test_archiver',
+    'osf_tests/test_auth_utils',
+    'osf_tests/test_collection',
+    'osf_tests/test_comment',
+    'osf_tests/test_elastic_search',
+    'osf_tests/test_exceptions',
+    'osf_tests/test_external_accounts',
+    'osf_tests/test_fields',
+    'osf_tests/test_files',
 ]
 ADMIN_TESTS = [
-    'admin_tests',
+
 ]
 
 
