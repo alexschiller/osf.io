@@ -492,7 +492,7 @@ def test_api2(ctx, numprocesses=None):
 def test_api3(ctx, numprocesses=None):
     """Run the API test suite."""
     print('Testing modules "{}"'.format(API_TESTS3 + OSF_TESTS))
-    test_module(ctx, module=API_TESTS3 + OSF_TESTS, numprocesses=numprocesses)
+    test_module(ctx, module=OSF_TESTS, numprocesses=numprocesses)
 
 
 @task
