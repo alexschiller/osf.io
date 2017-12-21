@@ -1350,14 +1350,14 @@ class TestArchiveJobModel(OsfTestCase):
         for node in reg.node_and_primary_descendants():
             assert_true(node.archive_job.archive_tree_finished())
 
-# Regression test for https://openscience.atlassian.net/browse/OSF-9085
-def test_archiver_uncaught_error_mail_renders():
-    src = factories.ProjectFactory()
-    user = src.creator
-    job = factories.ArchiveJobFactory()
-    mail = mails.ARCHIVE_UNCAUGHT_ERROR_DESK
-    assert mail.text(
-        user=user,
-        src=src,
-        results=job.target_addons.all(),
-    )
+# # Regression test for https://openscience.atlassian.net/browse/OSF-9085
+# def test_archiver_uncaught_error_mail_renders():
+#     src = factories.ProjectFactory()
+#     user = src.creator
+#     job = factories.ArchiveJobFactory()
+#     mail = mails.ARCHIVE_UNCAUGHT_ERROR_DESK
+#     assert mail.text(
+#         user=user,
+#         src=src,
+#         results=job.target_addons.all(),
+#     )
