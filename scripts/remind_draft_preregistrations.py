@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def main(dry_run=True):
+def silly_test(dry_run=True):
 
     for prereg in find_neglected_prereg_within_reminder_limit():
         if dry_run:
@@ -61,5 +61,5 @@ def run_main(dry_run=True):
     init_app(routes=False)
     if not dry_run:
         add_file_logger(logger, __file__)
-    main(dry_run=dry_run)
+    silly_test(dry_run=dry_run)
 
