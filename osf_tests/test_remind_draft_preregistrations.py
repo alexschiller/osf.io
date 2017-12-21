@@ -1,36 +1,36 @@
-import pytest
-from website import settings
-from django.utils import timezone
-from framework.auth.core import Auth
+# import pytest
+# from website import settings
+# from django.utils import timezone
+# from framework.auth.core import Auth
 
-from website.prereg.utils import get_prereg_schema
+# from website.prereg.utils import get_prereg_schema
 
-from .factories import UserFactory, DraftRegistrationFactory
+# from .factories import UserFactory, DraftRegistrationFactory
 
-from osf.models import QueuedMail
-from osf.models.queued_mail import PREREG_REMINDER_TYPE
+# from osf.models import QueuedMail
+# from osf.models.queued_mail import PREREG_REMINDER_TYPE
 
-from scripts.remind_draft_preregistrations import main
+# from scripts.remind_draft_preregistrations import main
 
-@pytest.fixture()
-def user():
-    return UserFactory(is_registered=True)
+# @pytest.fixture()
+# def user():
+#     return UserFactory(is_registered=True)
 
-@pytest.fixture()
-def schema():
-    return get_prereg_schema()
+# @pytest.fixture()
+# def schema():
+#     return get_prereg_schema()
 
-@pytest.mark.django_db
-class TestPreregReminder:
+# @pytest.mark.django_db
+# class TestPreregReminder:
 
-    @pytest.fixture()
-    def draft(self, user, schema):
-        draft = DraftRegistrationFactory(
-            registration_schema=schema, initiator=user
-        )
-        draft.datetime_initiated = timezone.now() - settings.PREREG_WAIT_TIME
-        draft.save()
-        return draft
+#     @pytest.fixture()
+#     def draft(self, user, schema):
+#         draft = DraftRegistrationFactory(
+#             registration_schema=schema, initiator=user
+#         )
+#         draft.datetime_initiated = timezone.now() - settings.PREREG_WAIT_TIME
+#         draft.save()
+#         return draft
 
 
 #     def test_trigger_prereg_reminder(self, draft):
