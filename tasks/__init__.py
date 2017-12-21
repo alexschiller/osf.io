@@ -401,10 +401,7 @@ def test_module(ctx, module=None, numprocesses=None, nocapture=False, params=Non
         numprocesses = cpu_count()
     # NOTE: Subprocess to compensate for lack of thread safety in the httpretty module.
     # https://github.com/gabrielfalcao/HTTPretty/issues/209#issue-54090252
-    if nocapture:
-        args = []
-    else:
-        args = ['-s']
+    args = ['-s']
     if numprocesses > 1:
         args += ['-n {}'.format(numprocesses), '--max-slave-restart=0']
     modules = [module] if isinstance(module, basestring) else module
@@ -491,7 +488,7 @@ def test_api2(ctx, numprocesses=None):
 @task
 def test_api3(ctx, numprocesses=None):
     """Run the API test suite."""
-    print('Testing modules "{}"'.format(API_TESTS3 + OSF_TESTS))
+    print('Testing modules "{}"'.format(OSF_TESTS))
     test_module(ctx, module=API_TESTS3 + OSF_TESTS, numprocesses=numprocesses)
 
 
