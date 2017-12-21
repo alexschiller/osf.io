@@ -17,6 +17,9 @@ from addons.wiki.tests.factories import NodeWikiFactory
 
 pytestmark = pytest.mark.django_db
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
 
 @pytest.fixture()
 def user():

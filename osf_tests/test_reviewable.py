@@ -4,6 +4,11 @@ from osf.models import PreprintService
 from osf_tests.factories import PreprintFactory, AuthUserFactory
 from reviews.workflow import States
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
+
+
 @pytest.mark.django_db
 class TestReviewable:
 

@@ -16,6 +16,10 @@ from framework.auth import Auth
 from website import settings
 from website.exceptions import NodeStateError
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
+
 
 @pytest.mark.django_db
 class TestRegistrationApprovalHooks:

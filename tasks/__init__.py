@@ -417,7 +417,7 @@ def test_module(ctx, module=None, numprocesses=None, nocapture=False, params=Non
 
 
 OSF_TESTS = [
-    'osf_tests/test_queued_mail',
+    'osf_tests',
 ]
 
 ELSE_TESTS = [
@@ -425,10 +425,18 @@ ELSE_TESTS = [
 ]
 
 API_TESTS1 = [
-    'osf_tests/test_quickfiles',
+    'api_tests/identifiers',
+    'api_tests/institutions',
+    'api_tests/licenses',
+    'api_tests/logs',
+    'api_tests/metaschemas',
+    'api_tests/preprint_providers',
+    'api_tests/preprints',
+    'api_tests/registrations',
+    'api_tests/users',
 ]
 API_TESTS2 = [
-    'osf_tests/test_registrations',
+    'api_tests/nodes',
 ]
 API_TESTS3 = [
     'api_tests/addons_tests',
@@ -447,7 +455,6 @@ API_TESTS3 = [
     'api_tests/wikis',
 ]
 ADDON_TESTS = [
-    'osf_tests/test_remind_draft_preregistrations',
     'addons',
 ]
 ADMIN_TESTS = [

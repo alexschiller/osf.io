@@ -15,6 +15,10 @@ from osf.models.queued_mail import (
     NO_LOGIN, NO_ADDON, NEW_PUBLIC_PROJECT, PREREG_REMINDER
 )
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
+
 @pytest.fixture()
 def user():
     return UserFactory(is_registered=True)

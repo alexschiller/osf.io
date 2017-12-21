@@ -12,6 +12,11 @@ from osf.models.queued_mail import PREREG_REMINDER_TYPE
 
 from scripts.remind_draft_preregistrations import main
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
+
+
 @pytest.fixture()
 def user():
     return UserFactory(is_registered=True)

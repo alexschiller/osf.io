@@ -14,6 +14,10 @@ from website.exceptions import NodeStateError
 
 pytestmark = pytest.mark.django_db
 
+import logging
+logger = logging.getLogger(__name__)
+logger.critical(__name__)
+
 
 @pytest.fixture()
 def user():
