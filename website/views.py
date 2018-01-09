@@ -334,6 +334,11 @@ def redirect_faq(**kwargs):
 def redirect_howosfworks(**kwargs):
     return redirect('/getting-started/')
 
+def redirect_home(**kwargs):
+    return redirect('/')
+
+def redirect_forgotpassword(**kwargs):
+    return redirect('/forgotpassword/')
 
 # redirect osf.io/getting-started to help.osf.io/
 def redirect_getting_started(**kwargs):

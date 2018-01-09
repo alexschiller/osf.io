@@ -559,6 +559,22 @@ def external_login_confirm_email_get(auth, uid, token):
         verification_key=user.verification_key
     ))
 
+def confirm_email_complete_redirect(auth, token, is_merge):
+    if is_merge:
+        status.push_status_message(language.MERGE_COMPLETE, kind='success', trust=False)
+        return redirect(web_url_for('user_account'))
+
+    campaign = campaigns.campaign_for_user(user)
+    if campaign:
+        return redirect(campaigns.campaign_url_for(campaign))
+
+    # new account, go to home page with welcome push notification
+    if auth.user.emails.count() == 1 and len(auth.user.email_verifications) == 0:
+        status.push_status_message(language.WELCOME_MESSAGE, kind='default', jumbotron=True, trust=True)
+
+    if token in auth.user.email_verifications:
+        status.push_status_message(language.CONFIRM_ALTERNATE_EMAIL_ERROR, kind='danger', trust=True)
+    return redirect(web_url_for('index'))
 
 @block_bing_preview
 @collect_auth
@@ -575,23 +591,29 @@ def confirm_email_get(uid=None, token=None, auth=None, **kwargs):
     """
 
     # if users are logged in, log them out and redirect back to this page
-    if auth.logged_in:
-        return auth_logout(redirect_url=request.url)
+    user = OSFUser.load(uid)
+
+    # If confirmation already occurred, redirect with status messages
+    if user and auth and auth.user and (auth.user._id == user._id or auth.user._id == user.merged_by._id):
+        is_merge = 'confirm_merge' in request.args
+        confirm_email_complete_redirect(auth, token, is_merge)
 
     # Check if request bears a valid pair of `uid` and `token`
-    user_obj = OSFUser.load(uid)
-    if not (user_obj and token in user_obj.email_verifications):
+    if not (user and token in user.email_verifications):
         error_data = {
             'message_short': 'Invalid Request.',
             'message_long': 'The requested URL is invalid, has expired, or was already used',
         }
         raise HTTPError(http.BAD_REQUEST, data=error_data)
-    if user_obj.emails.count() == 1 and len(user_obj.email_verifications) == 0:
+
+    # New accounts should go to confirm email page as there is no default confirmation
+    if not user.date_confirmed:
         return {
-            'uid': user_obj._id,
+            'uid': user._id,
             'token': token,
-            'email': user_obj.email,
+            'email': user.email,
         }
+    # All other account adds can immediately confirm as there is a modal confirmation
     return confirm_email_post(uid, token, auth=None, **kwargs)
 
 @block_bing_preview
@@ -622,23 +644,6 @@ def confirm_email_post(uid=None, token=None, auth=None, **kwargs):
     if log_out:
         return auth_email_logout(token, user)
 
-    if auth and auth.user and (auth.user._id == user._id or auth.user._id == user.merged_by._id):
-        if not is_merge:
-            # determine if the user registered through a campaign
-            campaign = campaigns.campaign_for_user(user)
-            if campaign:
-                return redirect(campaigns.campaign_url_for(campaign))
-
-            # go to home page with push notification
-            if auth.user.emails.count() == 1 and len(auth.user.email_verifications) == 0:
-                status.push_status_message(language.WELCOME_MESSAGE, kind='default', jumbotron=True, trust=True)
-            if token in auth.user.email_verifications:
-                status.push_status_message(language.CONFIRM_ALTERNATE_EMAIL_ERROR, kind='danger', trust=True)
-            return redirect(web_url_for('index'))
-
-        status.push_status_message(language.MERGE_COMPLETE, kind='success', trust=False)
-        return redirect(web_url_for('user_account'))
-
     try:
         user.confirm_email(token, merge=is_merge)
     except exceptions.EmailConfirmTokenError as e:
@@ -664,7 +669,7 @@ def confirm_email_post(uid=None, token=None, auth=None, **kwargs):
     user.save()
     # redirect to CAS and authenticate the user with a verification key.
     return redirect(cas.get_login_url(
-        settings.DOMAIN,
+        request.url,
         username=user.username,
         verification_key=user.verification_key
     ))

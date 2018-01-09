@@ -564,6 +564,10 @@ def make_url_map(app):
 
     process_rules(app, [
 
+        # confirm email redirect
+        # User is sent to homepage if a confirm page is refreshed (history strips the tokens to prevent accidental leaking of data)
+        Rule('/confirm/', 'get', website_views.redirect_home, notemplate),
+
         # confirm email
         Rule(
             '/confirm/<uid>/<token>/',
@@ -587,6 +591,10 @@ def make_url_map(app):
             auth_views.external_login_confirm_email_get,
             notemplate
         ),
+
+        # reset password redirect
+        # User is sent to the forgot password page if a resetpassword page is refreshed (history strips the tokens to prevent accidental leaking of data)
+        Rule('/resetpassword/', 'get', website_views.redirect_forgotpassword, notemplate),
 
         # reset password get
         Rule(
