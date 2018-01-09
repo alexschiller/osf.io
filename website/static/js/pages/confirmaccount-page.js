@@ -7,15 +7,5 @@ var $ = require('jquery');
 $(document).ready(function() {
 
     // Rewrite url to remove token so it is not passed with document.referrer
-    history.replaceState({}, "Confirm", "/confirm/")
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // NOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    // This route needs to be real so they don't refresh and #404
+    history.replaceState({}, 'Confirm', '/confirm/');
 });
