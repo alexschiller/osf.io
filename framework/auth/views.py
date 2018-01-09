@@ -559,7 +559,7 @@ def external_login_confirm_email_get(auth, uid, token):
         verification_key=user.verification_key
     ))
 
-def confirm_email_complete_redirect(auth, token, is_merge):
+def confirm_email_complete_redirect(auth, user, token, is_merge):
     if is_merge:
         status.push_status_message(language.MERGE_COMPLETE, kind='success', trust=False)
         return redirect(web_url_for('user_account'))
@@ -596,7 +596,7 @@ def confirm_email_get(uid=None, token=None, auth=None, **kwargs):
     # If confirmation already occurred, redirect with status messages
     if user and auth and auth.user and (auth.user._id == user._id or auth.user._id == user.merged_by._id):
         is_merge = 'confirm_merge' in request.args
-        confirm_email_complete_redirect(auth, token, is_merge)
+        return confirm_email_complete_redirect(auth, user, token, is_merge)
 
     # Check if request bears a valid pair of `uid` and `token`
     if not (user and token in user.email_verifications):
